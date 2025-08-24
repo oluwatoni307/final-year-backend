@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ojutu — We make life easier for everyday people</title>
+
+  <!-- Tailwind CDN with a small theme tweak -->
+  <script>
+    tailwind = { config: {
+      theme: {
+        extend: {
+          colors: {
+            'oj-cyan': '#00f5ff',
+            'oj-purple': '#8b5cf6',
+            'oj-gold': '#fbbf24',
+            'oj-bg': '#0a0a0a'
+          }
+        }
+      }
+    } }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts: Inter + logo fallback. Replace logo with SVG / webfont for Gladifilthefte -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{--bg: #0a0a0a;--surface: rgba(255,255,255,0.04);--glass-border: rgba(255,255,255,0.06)}
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:var(--bg); color: #e6eef3; -webkit-font-smoothing:antialiased}
+
+    /* Glass utility (subtle) */
+    .glass { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid var(--glass-border); backdrop-filter: blur(6px) }
+
+    /* Reveal (respect reduced motion) */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    @media (prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}}
+
+    /* Subtle hover affordances */
+    .card-hover:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+
+    /* Logo: make it big, but suggest replacing with SVG or webfont for Gladifilthefte */
+    .logo { font-family: 'Gladifilthefte', Inter, sans-serif; font-weight:800; letter-spacing: -0.02em }
+
+    /* focus visible */
+    :focus{outline:2px solid transparent;outline-offset:2px}
+    .focus-ring:focus-visible{outline:3px solid rgba(0,245,255,0.14);border-radius:8px}
+
+    /* Utility for accessible hidden text */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Constrain hero image contrast and lighten overlay for legibility */
+    .hero-bg{position:absolute;inset:0;z-index:0}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.85));z-index:0}
+
+    /* small screens: reduce gigantic headings */
+    @media (max-width:640px){.hero-title{font-size:2.25rem}}
+  </style>
+<style>
+:root{
+  --motion-fast: 160ms;
+  --motion-medium: 260ms;
+  --motion-slow: 480ms;
+  --easing-quick: cubic-bezier(.2,.8,.2,1);
+  --easing-smooth: cubic-bezier(.22,.12,.36,1);
+  --focus-ring: 0 0 0 4px rgba(0,245,255,0.12);
+  --card-elevation: 0 10px 30px rgba(2,6,23,0.6);
+}
+@media (prefers-reduced-motion: reduce){
+  :root{ --motion-fast: 10ms; --motion-medium: 10ms; --motion-slow: 10ms; }
+}
+
+.btn-primary{ transition: transform var(--motion-fast) var(--easing-quick), box-shadow var(--motion-medium); will-change: transform; }
+.btn-primary:hover{ transform: translateY(-3px) scale(1.03); box-shadow: var(--card-elevation); }
+.btn-primary:active{ transform: scale(0.98); }
+.btn-primary:focus-visible{ box-shadow: var(--focus-ring); outline: none; }
+
+.card-hover{ transition: transform var(--motion-medium) var(--easing-smooth), box-shadow var(--motion-medium); will-change: transform; }
+.card-hover:hover{ transform: translateY(-6px); box-shadow: var(--card-elevation); }
+
+.tile-img{ transition: transform var(--motion-medium) var(--easing-smooth), opacity var(--motion-medium); will-change: transform, opacity; }
+.tile-img:hover{ transform: scale(1.03); }
+
+.reveal{ opacity:0; transform: translateY(12px); transition: opacity .52s var(--easing-smooth), transform .52s var(--easing-smooth); transition-delay: var(--reveal-delay, 0ms); }
+.reveal.visible{ opacity:1; transform:none; }
+</style>
+
+</head>
+<body class="antialiased">
+  <!-- Primary nav -->
+  <header class="fixed inset-x-0 top-4 z-50">
+    <nav class="max-w-6xl mx-auto px-6 flex items-center justify-between glass rounded-full py-2 backdrop-blur-md" aria-label="Primary">
+      <div class="flex items-center gap-4">
+        <!-- Logo: replace with SVG for consistent rendering across browsers -->
+        <a href="#home" class="logo text-3xl md:text-4xl text-white font-extrabold logo" aria-label="Ojutu — Home">OJUTU</a>
+        <span class="hidden md:inline-block text-sm text-gray-400">We make life easier</span>
+      </div>
+
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#home" class="hover:underline text-gray-200">Home</a>
+        <a href="#about" class="hover:underline text-gray-200">About</a>
+        <a href="#services" class="hover:underline text-gray-200">Services</a>
+        <a href="#work" class="hover:underline text-gray-200">Work</a>
+        <a href="#contact" class="hover:underline text-gray-200">Contact</a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button id="menuBtn" class="p-2 focus-ring glass rounded-md" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile menu (simple) -->
+    <div id="mobileMenu" class="md:hidden max-w-6xl mx-auto px-6 mt-2 hidden">
+      <div class="bg-white/3 rounded-xl p-4 glass">
+        <a href="#about" class="block py-2 text-white">About</a>
+        <a href="#services" class="block py-2 text-white">Services</a>
+        <a href="#work" class="block py-2 text-white">Work</a>
+        <a href="#contact" class="block py-2 text-white">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main class="relative min-h-screen flex items-center overflow-hidden" id="home">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=60" alt="Working space background" class="w-full h-full object-cover opacity-90" loading="lazy" decoding="async">
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 items-center">
+        <!-- Left editorial column -->
+        <div class="lg:col-span-7 hero-inner reveal">
+          <p class="text-amber-200/20 uppercase tracking-widest text-sm mb-4">Design-led studio</p>
+          <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-white">We make life easier</h1>
+          <h2 class="text-xl md:text-2xl lg:text-3xl font-extrabold text-oj-cyan mt-2 mb-4">for everyday people</h2>
+
+          <p class="text-gray-300 max-w-2xl">A design-led studio dedicated to solving problems through products and services that illuminate the path forward.</p>
+
+          <div class="flex items-center gap-4 mt-6">
+            <a href="#work" class="btn-primary inline-flex items-center gap-3 bg-oj-cyan/8 text-oj-cyan border border-white/10 glass py-3 px-6 rounded-full font-semibold shadow-sm hover:scale-105 transition-transform focus-ring" role="button">See our work</a>
+            <a href="#contact" class="inline-flex items-center gap-2 py-3 px-5 rounded-full border border-white/6 text-gray-200 hover:bg-white/5 transition focus-ring">Get in touch</a>
+          </div>
+        </div>
+
+        <!-- Right visual / negative space -->
+        <div class="lg:col-span-5 hidden lg:block" aria-hidden="true">
+          <div class="h-80 w-full rounded-3xl bg-gradient-to-tr from-oj-cyan/6 to-oj-purple/6 shadow-inner"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- WORK GALLERY -->
+  <section id="work" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12 reveal">
+        <h2 class="text-3xl md:text-4xl font-extrabold">Solutions we’ve designed across various industries</h2>
+        <p class="text-gray-400 mt-2">Digital products and physical systems — crafted with purpose.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="reveal">
+          <h3 class="text-2xl font-bold text-oj-cyan mb-6">Digital products</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="glass rounded-2xl overflow-hidden card-hover">
+              <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=800&q=60" alt="Digital product 1" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            </div>
+            <div class="glass rounded-2xl overflow-hidden card-hover">
+              <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=800&q=60" alt="Digital product 2" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            </div>
+            <div class="glass rounded-2xl overflow-hidden card-hover">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=60" alt="Digital product 3" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            </div>
+            <div class="glass rounded-2xl overflow-hidden card-hover">
+              <img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?auto=format&fit=crop&w=800&q=60" alt="Digital product 4" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <h3 class="text-2xl font-bold text-oj-purple mb-6">Physical products</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="glass rounded-2xl overflow-hidden card-hover">
+              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=60" alt="Physical product 1" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            </div>
+            <div class="glass rounded-2xl overflow-hidden card-hover">
+              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=60" alt="Physical product 2" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            </div>
+            <div class="glass rounded-2xl overflow-hidden card-hover">
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=60" alt="Physical product 3" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            </div>
+            <div class="glass rounded-2xl overflow-hidden card-hover">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=60" alt="Physical product 4" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS (boxed) -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="glass rounded-3xl p-8 md:p-12 reveal">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-center mb-4">Our Process</h2>
+        <p class="text-center text-gray-400 mb-6">Six guiding principles that shape our solutions</p>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="flex flex-col items-start gap-3 p-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-oj-cyan/8 text-oj-cyan font-black">1</div>
+            <h3 class="font-bold">Vision</h3>
+            <p class="text-sm text-gray-300">This is the foundation of our design process. It involves defining the overall goals and objectives for the project. We consider the bigger picture and set a clear direction to guide our work.</p>
+          </div>
+
+          <div class="flex flex-col items-start gap-3 p-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-oj-purple/8 text-oj-purple font-black">2</div>
+            <h3 class="font-bold">Research</h3>
+            <p class="text-sm text-gray-300">We conduct thorough research to gather valuable insights. This includes studying relevant data, trends, and technologies that can inform our design decisions. Research helps us stay up-to-date and ensures that our solutions are innovative and effective.</p>
+          </div>
+
+          <div class="flex flex-col items-start gap-3 p-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-yellow-400/10 text-yellow-400 font-black">3</div>
+            <h3 class="font-bold">User & Market Analysis</h3>
+            <p class="text-sm text-gray-300">Understanding the needs and preferences of our target audience is crucial. We analyse user behaviours, demographics, and pain points. Additionally, we examine the market landscape to identify opportunities and challenges.</p>
+          </div>
+
+          <div class="flex flex-col items-start gap-3 p-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-oj-cyan/8 text-oj-cyan font-black">4</div>
+            <h3 class="font-bold">Ideation</h3>
+            <p class="text-sm text-gray-300">In this creative phase, we brainstorm and generate a wide range of ideas. We encourage innovative thinking and explore multiple design concepts. This step is about thinking outside the box and finding unique solutions.</p>
+          </div>
+
+          <div class="flex flex-col items-start gap-3 p-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-oj-purple/8 text-oj-purple font-black">5</div>
+            <h3 class="font-bold">Prototype / Testing</h3>
+            <p class="text-sm text-gray-300">We bring our ideas to life through prototypes — from sketches to interactive models. Prototyping allows us to test and refine designs iteratively, gathering feedback from users and stakeholders for continual improvement.</p>
+          </div>
+
+          <div class="flex flex-col items-start gap-3 p-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-yellow-400/10 text-yellow-400 font-black">6</div>
+            <h3 class="font-bold">Validation</h3>
+            <p class="text-sm text-gray-300">In the final stage, we validate our designs to ensure they meet the project's goals. This involves usability testing and performance checks to make sure solutions are functional and ready for implementation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div class="reveal">
+          <h2 class="text-3xl md:text-4xl font-extrabold mb-4">About Our Universe</h2>
+          <p class="text-gray-300 mb-6">We are a design-led studio dedicated to solving problems through products and services that transcend ordinary experience.</p>
+
+          <h3 class="font-bold text-oj-cyan">Our Mission</h3>
+          <p class="text-gray-300 mb-4">At the heart of our company is a mission to constantly develop and deliver life changing solutions.</p>
+
+          <h3 class="font-bold text-oj-purple">Our Vision</h3>
+          <p class="text-gray-300 mb-6">To make life fun and easier for everyday people. We are committed to making this vision a reality by focusing on creating products and services that simplify daily tasks for people.</p>
+
+          <p class="text-gray-400">Since our founding, we have dedicated ourselves to making a positive impact through thoughtful and purposeful design. Our journey is just beginning, and we are excited to continue growing and evolving with you. Together, we can achieve great things and make life a little easier for everyone.</p>
+
+          <div class="mt-6 glass p-4 rounded-lg">
+            <h4 class="font-bold">Our Design Philosophy</h4>
+            <p class="text-gray-300">At Ojutu, we embraced a design philosophy known as BASED, which stands for Beautiful, Accessible, Safe, Effective, and Durable. We believe that for any solution to be successful, it must embody these principles.</p>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="glass rounded-2xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=60" alt="Team collaboration" class="w-full h-full object-cover" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-10 reveal">
+        <h2 class="text-3xl md:text-4xl font-extrabold">Services</h2>
+        <p class="text-gray-400">Three dimensions of creative excellence</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6">
+        <article class="glass rounded-3xl p-6 reveal">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-oj-cyan/8 text-oj-cyan">P</div>
+          <h3 class="font-bold mb-2">Physical Product Design</h3>
+          <p class="text-gray-300">We specialize in designing new products and help clients improve existing ones for greater impact. Our work spans multiple areas of life and we work closely with clients and partners to deliver solutions that meet requirements and market demands.</p>
+        </article>
+
+        <article class="glass rounded-3xl p-6 reveal">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-oj-purple/8 text-oj-purple">D</div>
+          <h3 class="font-bold mb-2">Digital Product Design</h3>
+          <p class="text-gray-300">We create user-friendly websites, apps, and digital platforms. Our process involves understanding user needs, behaviors and working closely with stakeholders to ensure products look great and function efficiently.</p>
+        </article>
+
+        <article class="glass rounded-3xl p-6 reveal">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-yellow-400/10 text-yellow-400">M</div>
+          <h3 class="font-bold mb-2">Manufacturing Services</h3>
+          <p class="text-gray-300">We specialize in sourcing high-quality materials, manufacturers and suppliers. Our network and experience secure competitive pricing, timely production and high standards for every project.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-8 reveal">
+        <h2 class="text-3xl md:text-4xl font-extrabold">Contact Us</h2>
+        <p class="text-gray-400">Let's make life easier, together.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div class="reveal">
+          <div class="glass rounded-2xl overflow-hidden h-full min-h-[300px]">
+            <!-- Replace coords/iframe key with your actual Business place if needed -->
+            <iframe src="https://www.google.com/maps?q=2757+Battleford+Road+Mississauga+Canada&output=embed" class="w-full h-full border-0 min-h-[300px]" loading="lazy" aria-hidden="false"></iframe>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="mb-6">
+            <h3 class="text-2xl font-bold mb-4">Get in touch</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li><strong>Address:</strong> 2757 Battleford Road, Mississauga, Canada</li>
+              <li><strong>Email:</strong> <a href="mailto:hello@ojutu.example" class="text-oj-cyan">hello@ojutu.example</a></li>
+              <li><strong>Phone:</strong> <a href="tel:+14379889856" class="text-oj-cyan">+1 (437) 988-9856</a></li>
+              <li><strong>Instagram:</strong> <a href="https://www.instagram.com/ojutulimited" target="_blank" rel="noopener noreferrer" class="text-oj-cyan">@ojutulimited</a></li>
+            </ul>
+          </div>
+
+          <form class="space-y-4" onsubmit="event.preventDefault(); alert('Thanks — message sent (demo)')" aria-label="Contact form">
+            <label class="block">
+              <span class="sr-only">Name</span>
+              <input type="text" placeholder="Your name" class="h-12 w-full rounded-lg glass px-4 focus:ring-2 focus:ring-oj-cyan/20" required>
+            </label>
+            <label class="block">
+              <span class="sr-only">Email</span>
+              <input type="email" placeholder="Your email" class="h-12 w-full rounded-lg glass px-4 focus:ring-2 focus:ring-oj-cyan/20" required>
+            </label>
+            <label class="block">
+              <span class="sr-only">Message</span>
+              <textarea rows="4" placeholder="Message" class="w-full rounded-lg glass px-4 py-3 focus:ring-2 focus:ring-oj-cyan/20" required></textarea>
+            </label>
+            <button class="w-full py-3 rounded-full bg-oj-cyan text-black font-semibold">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-8 border-t border-white/6">
+    <div class="max-w-6xl mx-auto px-6 text-center text-gray-400 text-sm">
+      <p>&copy; <span id="year">2025</span> Ojutu. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple DOM: menu toggle + reveal on scroll + set year
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if(menuBtn){
+      menuBtn.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('hidden');
+        const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', (!expanded).toString());
+      });
+    }
+
+    // Reveal on scroll (staggered + prefers-reduced-motion)
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reveals = document.querySelectorAll('.reveal');
+    if(!prefersReduced){
+      reveals.forEach((el, i) => el.style.setProperty('--reveal-delay', `${i*80}ms`));
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e => {
+          if(e.isIntersecting){
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, {threshold: 0.12});
+      reveals.forEach(r => io.observe(r));
+    } else {
+      reveals.forEach(r => r.classList.add('visible'));
+    }
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
