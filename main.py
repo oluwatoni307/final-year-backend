@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field # pyright: ignore[reportMissingImports]
 from datetime import datetime
 from typing import Dict, List, Literal, Optional
 from managers.Goal_Manger import GoalManager
-from managers.goal.model import goal_input, GoalOutput
+from managers.goal.model import GoalSave, goal_input, GoalOutput
 from managers.milestone_manager import MilestoneManager
 from  managers.milestones.model import milestones
 from managers.task.model import Task
@@ -23,7 +23,6 @@ app.add_middleware(
 )
 
 # ---------- INPUT / OUTPUT MODELS ----------
-
 
 
 # ---------- ENDPOINTS ----------
@@ -56,7 +55,7 @@ def analyze_goal(payload: goal_input):
     return goal
 
 @app.post("/goals/verify_and_save")
-def verify_and_save_goal(payload: GoalOutput) -> dict:
+def verify_and_save_goal(payload: GoalSave) -> dict:
         """Verify and save a goal in a single step."""
         GoalManager.verify_and_save(payload)
         return {"status": "ok"}

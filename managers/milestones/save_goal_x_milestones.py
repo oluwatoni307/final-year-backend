@@ -1,5 +1,5 @@
 from .model import milestones
-from managers.goal.model import GoalOutput
+from managers.goal.model import GoalOutput, GoalSave
 from managers.goal.save_goal import save_goal
 
 # data/goal_repo.py
@@ -9,7 +9,7 @@ from ..db import insert, select
 TABLE = "milestones"
 
 
-def save_goal_x_milestone(milestones: milestones, goal: GoalOutput):
+def save_goal_x_milestone(milestones: milestones, goal: GoalSave):
     """
     Saves goal and all milestones. Sets first milestone as active.
     Returns the active milestone from DB with its ID.

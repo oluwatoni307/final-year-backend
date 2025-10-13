@@ -1,4 +1,4 @@
-from .model import GoalOutput
+from .model import GoalOutput, GoalSave
 
 # data/goal_repo.py
 from uuid import UUID
@@ -8,7 +8,7 @@ from ..db import insert
 
 TABLE = "goals"
 # do not forget to add the new columns to the database schema
-def save_goal(goal_obj: GoalOutput, goal_name, goal_description) -> dict:
+def save_goal(goal_obj: GoalSave, goal_name, goal_description) -> dict:
     """
     goal_obj can contain any extra fields.
     We cherry-pick the columns we need and stringify the rest.

@@ -65,3 +65,20 @@ class Goal(BaseModel):
     complexity_rating: float  # 1.0 - 10.0
     success_probability: Literal["High", "Medium", "Low"]
     recommended_approach: str
+    
+    
+class GoalSave(BaseModel):
+    """Combines user input with key analysis fields for saving"""
+    
+    # From GoalInput
+    user_id: str
+    statement: str
+    date: datetime
+    importance: int
+    context: str
+    
+    # Key fields from GoalOutput
+    goal_classification: str
+    complexity_rating: float
+    recommended_approach: str
+    success_probability: str

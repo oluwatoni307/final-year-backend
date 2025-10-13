@@ -1,5 +1,5 @@
 from managers.milestones.model import WeeklySchedule
-from .goal.model import goal_input, GoalOutput, Goal
+from .goal.model import GoalSave, goal_input, GoalOutput, Goal
 from .goal.analyze_draft import goal_definer
 from .milestones.save_goal_x_milestones import save_goal_x_milestone
 from .milestones.create_milestone import milestone_creator
@@ -26,7 +26,7 @@ class GoalManager:
 
     # 2️⃣  User says “Yes, this is what I meant”
     @staticmethod
-    def verify_and_save(confirmed: GoalOutput):
+    def verify_and_save(confirmed: GoalSave):
       """
       1. Check if user has existing weekly schedule
       2. If yes, pull it; if no, use empty WeeklySchedule
