@@ -15,7 +15,7 @@ def show_resp(resp):
 
 def main():
     # GET /home
-    # show_resp(requests.get(f"{BASE_URL}/home"))
+    show_resp(requests.get(f"{BASE_URL}/home"))
 
     # GET /goals
     # show_resp(requests.get(f"{BASE_URL}/goals"))
@@ -28,24 +28,24 @@ def main():
     #     "context": "I have intermediate Python skills, experience with FastAPI, and 10 hours per week available to work on this"
     # }))
     # POST /goals/verify_and_save (adjust payload to your model)
-    show_resp(requests.post(f"{BASE_URL}/goals/verify_and_save", json={
-    "goal_type": "Achievement",
-    "specific": 6,
-    "complexity": "Moderate",
-    "motivation": "Intrinsic",
-    "skill_level": "Small",
-    "dependencies": "Independent",
-    "measurability": "Milestone",
-    "decomposability": "Medium",
-    "urgency": "Medium",
-    "autonomy": "Self-Directed",
-    "readiness": "Ready",
-    "identity_alignment": "Medium",
-    "goal_classification": "Moderate Achievement Goal with Medium Identity Alignment and Small Skill Gap",
-    "complexity_rating": 6.0,
-    "success_probability": "Medium",
-    "recommended_approach": "Structure milestones..."
-}))
+#     show_resp(requests.post(f"{BASE_URL}/goals/verify_and_save", json={
+#     "goal_type": "Achievement",
+#     "specific": 6,
+#     "complexity": "Moderate",
+#     "motivation": "Intrinsic",
+#     "skill_level": "Small",
+#     "dependencies": "Independent",
+#     "measurability": "Milestone",
+#     "decomposability": "Medium",
+#     "urgency": "Medium",
+#     "autonomy": "Self-Directed",
+#     "readiness": "Ready",
+#     "identity_alignment": "Medium",
+#     "goal_classification": "Moderate Achievement Goal with Medium Identity Alignment and Small Skill Gap",
+#     "complexity_rating": 6.0,
+#     "success_probability": "Medium",
+#     "recommended_approach": "Structure milestones..."
+# }))
     # # POST /goals
     # show_resp(requests.get(f"{BASE_URL}/goals", json={
     #     "id": "g1",
