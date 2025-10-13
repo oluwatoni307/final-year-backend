@@ -1,403 +1,1328 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ojutu — We make life easier for everyday people</title>
-
-  <!-- Tailwind CDN with a small theme tweak -->
-  <script>
-    tailwind = { config: {
-      theme: {
-        extend: {
-          colors: {
-            'oj-cyan': '#00f5ff',
-            'oj-purple': '#8b5cf6',
-            'oj-gold': '#fbbf24',
-            'oj-bg': '#0a0a0a'
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ojutu - Premium Design & Engineering Studio | BASED Methodology</title>
+    <meta name="description" content="Transform complex problems into elegant solutions. Ojutu is a premier design studio creating digital products, physical products, and brand experiences that matter.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0A0E27',
+                        'midnight': '#000000',
+                        'cyan': '#00D4FF',
+                        'cyan-light': '#4DE3FF',
+                        'slate': '#64748B',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 2s infinite',
+                        'pulse-slow': 'pulse 4s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'slide-in': 'slideIn 0.8s ease-out',
+                        'fade-in': 'fadeIn 1s ease-out',
+                        'scale-in': 'scaleIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(10deg)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-30px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                    },
+                },
+            },
         }
-      }
-    } }
-  </script>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fonts: Inter + logo fallback. Replace logo with SVG / webfont for Gladifilthefte -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{--bg: #0a0a0a;--surface: rgba(255,255,255,0.04);--glass-border: rgba(255,255,255,0.06)}
-    html,body{height:100%}
-    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:var(--bg); color: #e6eef3; -webkit-font-smoothing:antialiased}
-
-    /* Glass utility (subtle) */
-    .glass { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid var(--glass-border); backdrop-filter: blur(6px) }
-
-    /* Reveal (respect reduced motion) */
-    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
-    .reveal.visible{opacity:1;transform:none}
-    @media (prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}}
-
-    /* Subtle hover affordances */
-    .card-hover:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
-
-    /* Logo: make it big, but suggest replacing with SVG or webfont for Gladifilthefte */
-    .logo { font-family: 'Gladifilthefte', Inter, sans-serif; font-weight:800; letter-spacing: -0.02em }
-
-    /* focus visible */
-    :focus{outline:2px solid transparent;outline-offset:2px}
-    .focus-ring:focus-visible{outline:3px solid rgba(0,245,255,0.14);border-radius:8px}
-
-    /* Utility for accessible hidden text */
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-    /* Constrain hero image contrast and lighten overlay for legibility */
-    .hero-bg{position:absolute;inset:0;z-index:0}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.85));z-index:0}
-
-    /* small screens: reduce gigantic headings */
-    @media (max-width:640px){.hero-title{font-size:2.25rem}}
-  </style>
-<style>
-:root{
-  --motion-fast: 160ms;
-  --motion-medium: 260ms;
-  --motion-slow: 480ms;
-  --easing-quick: cubic-bezier(.2,.8,.2,1);
-  --easing-smooth: cubic-bezier(.22,.12,.36,1);
-  --focus-ring: 0 0 0 4px rgba(0,245,255,0.12);
-  --card-elevation: 0 10px 30px rgba(2,6,23,0.6);
-}
-@media (prefers-reduced-motion: reduce){
-  :root{ --motion-fast: 10ms; --motion-medium: 10ms; --motion-slow: 10ms; }
-}
-
-.btn-primary{ transition: transform var(--motion-fast) var(--easing-quick), box-shadow var(--motion-medium); will-change: transform; }
-.btn-primary:hover{ transform: translateY(-3px) scale(1.03); box-shadow: var(--card-elevation); }
-.btn-primary:active{ transform: scale(0.98); }
-.btn-primary:focus-visible{ box-shadow: var(--focus-ring); outline: none; }
-
-.card-hover{ transition: transform var(--motion-medium) var(--easing-smooth), box-shadow var(--motion-medium); will-change: transform; }
-.card-hover:hover{ transform: translateY(-6px); box-shadow: var(--card-elevation); }
-
-.tile-img{ transition: transform var(--motion-medium) var(--easing-smooth), opacity var(--motion-medium); will-change: transform, opacity; }
-.tile-img:hover{ transform: scale(1.03); }
-
-.reveal{ opacity:0; transform: translateY(12px); transition: opacity .52s var(--easing-smooth), transform .52s var(--easing-smooth); transition-delay: var(--reveal-delay, 0ms); }
-.reveal.visible{ opacity:1; transform:none; }
-</style>
-
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0E27;
+            color: white;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00D4FF;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.1s ease;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: #00D4FF;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 9998;
+        }
+        
+        .cursor-hover {
+            transform: scale(2);
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00D4FF;
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00D4FF, #4DE3FF);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        /* Navigation */
+        nav {
+            backdrop-filter: blur(20px);
+            background: rgba(10, 14, 39, 0.8);
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(10, 14, 39, 0.95);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #00D4FF, #4DE3FF, #00D4FF);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Magnetic Button */
+        .magnetic-button {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        /* Glow Effect */
+        .glow {
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+        }
+        
+        /* Card Hover */
+        .card-hover {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .card-hover:hover::before {
+            left: 100%;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+        
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Floating Shapes */
+        .floating-shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 212, 255, 0.05));
+            border-radius: 50%;
+            filter: blur(40px);
+            pointer-events: none;
+        }
+        
+        /* Text Animation */
+        .word-rotate {
+            display: inline-block;
+            vertical-align: top;
+            overflow: hidden;
+            height: 1.2em;
+        }
+        
+        .word-rotate span {
+            display: block;
+            animation: wordRotate 9s infinite;
+        }
+        
+        @keyframes wordRotate {
+            0%, 30% { transform: translateY(0%); }
+            33%, 63% { transform: translateY(-100%); }
+            66%, 96% { transform: translateY(-200%); }
+            100% { transform: translateY(0%); }
+        }
+        
+        /* Glass Morphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Number Counter */
+        .counter {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+        }
+        
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, #00D4FF, transparent);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -4px;
+            top: 20px;
+            width: 10px;
+            height: 10px;
+            background: #00D4FF;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+    </style>
 </head>
-<body class="antialiased">
-  <!-- Primary nav -->
-  <header class="fixed inset-x-0 top-4 z-50">
-    <nav class="max-w-6xl mx-auto px-6 flex items-center justify-between glass rounded-full py-2 backdrop-blur-md" aria-label="Primary">
-      <div class="flex items-center gap-4">
-        <!-- Logo: replace with SVG for consistent rendering across browsers -->
-        <a href="#home" class="logo text-3xl md:text-4xl text-white font-extrabold logo" aria-label="Ojutu — Home">OJUTU</a>
-        <span class="hidden md:inline-block text-sm text-gray-400">We make life easier</span>
-      </div>
-
-      <div class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#home" class="hover:underline text-gray-200">Home</a>
-        <a href="#about" class="hover:underline text-gray-200">About</a>
-        <a href="#services" class="hover:underline text-gray-200">Services</a>
-        <a href="#work" class="hover:underline text-gray-200">Work</a>
-        <a href="#contact" class="hover:underline text-gray-200">Contact</a>
-      </div>
-
-      <!-- Mobile menu button -->
-      <div class="md:hidden">
-        <button id="menuBtn" class="p-2 focus-ring glass rounded-md" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
+<body class="bg-navy text-white">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 px-6 lg:px-12 py-4" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center font-bold text-navy">O</div>
+                <span class="text-xl font-bold">OJUTU</span>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="hover:text-cyan transition-colors">About</a>
+                <a href="#services" class="hover:text-cyan transition-colors">Services</a>
+                <a href="#process" class="hover:text-cyan transition-colors">Process</a>
+                <a href="#portfolio" class="hover:text-cyan transition-colors">Portfolio</a>
+                <a href="#contact" class="hover:text-cyan transition-colors">Contact</a>
+                <button class="magnetic-button bg-gradient-to-r from-cyan to-cyan-light text-navy px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all">
+                    Start Project
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden" id="mobileMenuBtn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu fixed top-0 right-0 w-64 h-full bg-navy p-6 md:hidden" id="mobileMenu">
+            <button class="absolute top-4 right-4" id="closeMobileMenu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div class="flex flex-col space-y-6 mt-12">
+                <a href="#about" class="hover:text-cyan transition-colors">About</a>
+                <a href="#services" class="hover:text-cyan transition-colors">Services</a>
+                <a href="#process" class="hover:text-cyan transition-colors">Process</a>
+                <a href="#portfolio" class="hover:text-cyan transition-colors">Portfolio</a>
+                <a href="#contact" class="hover:text-cyan transition-colors">Contact</a>
+            </div>
+        </div>
     </nav>
-
-    <!-- Mobile menu (simple) -->
-    <div id="mobileMenu" class="md:hidden max-w-6xl mx-auto px-6 mt-2 hidden">
-      <div class="bg-white/3 rounded-xl p-4 glass">
-        <a href="#about" class="block py-2 text-white">About</a>
-        <a href="#services" class="block py-2 text-white">Services</a>
-        <a href="#work" class="block py-2 text-white">Work</a>
-        <a href="#contact" class="block py-2 text-white">Contact</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <main class="relative min-h-screen flex items-center overflow-hidden" id="home">
-    <div class="hero-bg">
-      <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=60" alt="Working space background" class="w-full h-full object-cover opacity-90" loading="lazy" decoding="async">
-      <div class="hero-overlay"></div>
-    </div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-6">
-      <div class="grid grid-cols-1 lg:grid-cols-12 items-center">
-        <!-- Left editorial column -->
-        <div class="lg:col-span-7 hero-inner reveal">
-          <p class="text-amber-200/20 uppercase tracking-widest text-sm mb-4">Design-led studio</p>
-          <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-white">We make life easier</h1>
-          <h2 class="text-xl md:text-2xl lg:text-3xl font-extrabold text-oj-cyan mt-2 mb-4">for everyday people</h2>
-
-          <p class="text-gray-300 max-w-2xl">A design-led studio dedicated to solving problems through products and services that illuminate the path forward.</p>
-
-          <div class="flex items-center gap-4 mt-6">
-            <a href="#work" class="btn-primary inline-flex items-center gap-3 bg-oj-cyan/8 text-oj-cyan border border-white/10 glass py-3 px-6 rounded-full font-semibold shadow-sm hover:scale-105 transition-transform focus-ring" role="button">See our work</a>
-            <a href="#contact" class="inline-flex items-center gap-2 py-3 px-5 rounded-full border border-white/6 text-gray-200 hover:bg-white/5 transition focus-ring">Get in touch</a>
-          </div>
-        </div>
-
-        <!-- Right visual / negative space -->
-        <div class="lg:col-span-5 hidden lg:block" aria-hidden="true">
-          <div class="h-80 w-full rounded-3xl bg-gradient-to-tr from-oj-cyan/6 to-oj-purple/6 shadow-inner"></div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- WORK GALLERY -->
-  <section id="work" class="py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-12 reveal">
-        <h2 class="text-3xl md:text-4xl font-extrabold">Solutions we’ve designed across various industries</h2>
-        <p class="text-gray-400 mt-2">Digital products and physical systems — crafted with purpose.</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="reveal">
-          <h3 class="text-2xl font-bold text-oj-cyan mb-6">Digital products</h3>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="glass rounded-2xl overflow-hidden card-hover">
-              <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=800&q=60" alt="Digital product 1" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+    
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative overflow-hidden px-6 lg:px-12">
+        <!-- Floating Shapes Background -->
+        <div class="floating-shape w-96 h-96 -top-48 -right-48 animate-float"></div>
+        <div class="floating-shape w-64 h-64 bottom-0 left-0 animate-float-delayed"></div>
+        
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8 z-10">
+                <div class="space-y-2">
+                    <div class="text-cyan text-lg font-mono animate-slide-up">
+                        We <span class="word-rotate">
+                            <span>Transform</span>
+                            <span>Elevate</span>
+                            <span>Revolutionize</span>
+                        </span>
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-black leading-tight animate-slide-up" style="animation-delay: 0.2s">
+                        Complex Problems Into<br>
+                        <span class="gradient-text">Elegant Solutions</span>
+                    </h1>
+                </div>
+                
+                <p class="text-lg text-gray-400 max-w-xl animate-slide-up" style="animation-delay: 0.4s">
+                    Ojutu is a premier design and engineering studio that creates products people love to use. From digital experiences to physical products, we apply our BASED methodology to deliver excellence.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 animate-slide-up" style="animation-delay: 0.6s">
+                    <button class="magnetic-button bg-gradient-to-r from-cyan to-cyan-light text-navy px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all glow">
+                        Start Your Project →
+                    </button>
+                    <button class="magnetic-button border-2 border-cyan text-cyan px-8 py-4 rounded-full font-semibold text-lg hover:bg-cyan hover:text-navy transition-all">
+                        View Our Work
+                    </button>
+                </div>
+                
+                <div class="flex items-center space-x-6 text-sm text-gray-400 font-mono animate-fade-in" style="animation-delay: 0.8s">
+                    <span class="counter" data-target="50">0</span><span>+ Products Launched</span>
+                    <span>•</span>
+                    <span class="counter" data-target="100">0</span><span>% Client Satisfaction</span>
+                    <span>•</span>
+                    <span>Global Reach</span>
+                </div>
             </div>
-            <div class="glass rounded-2xl overflow-hidden card-hover">
-              <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=800&q=60" alt="Digital product 2" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            
+            <div class="relative h-96 lg:h-[600px] animate-scale-in" style="animation-delay: 0.4s">
+                <!-- 3D Geometric Visualization -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="relative w-full h-full">
+                        <!-- Animated Cubes -->
+                        <div class="absolute top-1/4 left-1/4 w-32 h-32 glass rounded-lg animate-float transform rotate-12"></div>
+                        <div class="absolute bottom-1/4 right-1/4 w-24 h-24 glass rounded-lg animate-float-delayed transform -rotate-12"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 glass rounded-lg animate-pulse-slow"></div>
+                        
+                        <!-- Project Preview Cards -->
+                        <div class="absolute top-10 right-0 glass p-4 rounded-lg transform hover:scale-105 transition-all">
+                            <div class="text-xs text-cyan mb-1">Recent Launch</div>
+                            <div class="font-semibold">Banking App</div>
+                            <div class="text-xs text-gray-400">2M+ Users</div>
+                        </div>
+                        
+                        <div class="absolute bottom-10 left-0 glass p-4 rounded-lg transform hover:scale-105 transition-all">
+                            <div class="text-xs text-cyan mb-1">Award Winner</div>
+                            <div class="font-semibold">Smart Home</div>
+                            <div class="text-xs text-gray-400">Red Dot 2024</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="glass rounded-2xl overflow-hidden card-hover">
-              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=60" alt="Digital product 3" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-24 px-6 lg:px-12 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan font-mono text-sm">WHO WE ARE</span>
+                <h2 class="text-4xl lg:text-5xl font-black mt-4">
+                    Design Studio of the Future,<br>
+                    Built on <span class="gradient-text">Timeless Principles</span>
+                </h2>
             </div>
-            <div class="glass rounded-2xl overflow-hidden card-hover">
-              <img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?auto=format&fit=crop&w=800&q=60" alt="Digital product 4" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            
+            <p class="text-xl text-gray-400 text-center max-w-3xl mx-auto mb-16 reveal">
+                At Ojutu, we believe great design isn't about following trends—it's about solving real problems for real people. Our team of designers, engineers, and strategists work at the intersection of creativity and technology to build products that matter.
+            </p>
+            
+            <!-- Philosophy Grid -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="card-hover glass p-8 rounded-2xl reveal">
+                    <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg mb-6 flex items-center justify-center text-2xl">
+                        👤
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Human-First Approach</h3>
+                    <p class="text-gray-400">Every decision starts with understanding people's needs, frustrations, and dreams. We design for humans, not hypotheticals.</p>
+                </div>
+                
+                <div class="card-hover glass p-8 rounded-2xl reveal" style="animation-delay: 0.2s">
+                    <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg mb-6 flex items-center justify-center text-2xl">
+                        ⚙️
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Engineering Excellence</h3>
+                    <p class="text-gray-400">Beautiful isn't enough. Our solutions are built to scale, perform, and endure the demands of the real world.</p>
+                </div>
+                
+                <div class="card-hover glass p-8 rounded-2xl reveal" style="animation-delay: 0.4s">
+                    <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg mb-6 flex items-center justify-center text-2xl">
+                        🌱
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Sustainable Innovation</h3>
+                    <p class="text-gray-400">We create products that last—environmentally conscious, economically viable, and designed for long-term impact.</p>
+                </div>
             </div>
-          </div>
-        </div>
-
-        <div class="reveal">
-          <h3 class="text-2xl font-bold text-oj-purple mb-6">Physical products</h3>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="glass rounded-2xl overflow-hidden card-hover">
-              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=60" alt="Physical product 1" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            
+            <!-- BASED Methodology -->
+            <div class="glass p-12 rounded-3xl reveal">
+                <h3 class="text-2xl font-bold mb-8 text-center">The BASED Methodology</h3>
+                <div class="grid md:grid-cols-5 gap-6">
+                    <div class="text-center group cursor-pointer">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-2xl font-black text-navy mb-3 group-hover:scale-110 transition-all">B</div>
+                        <div class="font-semibold">Beautiful</div>
+                        <div class="text-xs text-gray-400 mt-1">Aesthetics that inspire</div>
+                    </div>
+                    <div class="text-center group cursor-pointer">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-2xl font-black text-navy mb-3 group-hover:scale-110 transition-all">A</div>
+                        <div class="font-semibold">Accessible</div>
+                        <div class="text-xs text-gray-400 mt-1">Inclusive for everyone</div>
+                    </div>
+                    <div class="text-center group cursor-pointer">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-2xl font-black text-navy mb-3 group-hover:scale-110 transition-all">S</div>
+                        <div class="font-semibold">Safe</div>
+                        <div class="text-xs text-gray-400 mt-1">Security by design</div>
+                    </div>
+                    <div class="text-center group cursor-pointer">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-2xl font-black text-navy mb-3 group-hover:scale-110 transition-all">E</div>
+                        <div class="font-semibold">Effective</div>
+                        <div class="text-xs text-gray-400 mt-1">Solutions that work</div>
+                    </div>
+                    <div class="text-center group cursor-pointer">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-2xl font-black text-navy mb-3 group-hover:scale-110 transition-all">D</div>
+                        <div class="font-semibold">Durable</div>
+                        <div class="text-xs text-gray-400 mt-1">Built to last</div>
+                    </div>
+                </div>
             </div>
-            <div class="glass rounded-2xl overflow-hidden card-hover">
-              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=60" alt="Physical product 2" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section id="services" class="py-24 px-6 lg:px-12 bg-gradient-to-b from-navy to-midnight">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan font-mono text-sm">WHAT WE DO</span>
+                <h2 class="text-4xl lg:text-5xl font-black mt-4">
+                    Full-Spectrum <span class="gradient-text">Design & Engineering</span>
+                </h2>
             </div>
-            <div class="glass rounded-2xl overflow-hidden card-hover">
-              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=60" alt="Physical product 3" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Service Card 1 -->
+                <div class="card-hover glass p-8 rounded-2xl group reveal">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Digital Product Design</h3>
+                            <p class="text-gray-400">User Experience Strategy • Interface Design • Mobile & Web Apps</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center group-hover:scale-110 transition-all text-2xl">
+                            💻
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                        <li>• Stakeholder interviews</li>
+                            <li>• Market analysis</li>
+                            <li>• User research</li>
+                            <li>• Problem definition</li>
+                        </ul>
+                        <div class="text-cyan text-xs font-mono mt-2">Deliverable: Strategic Brief</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item reveal" style="animation-delay: 0.2s">
+                    <div class="timeline-dot"></div>
+                    <div class="ml-8">
+                        <div class="text-cyan font-mono text-sm mb-2">PHASE 02</div>
+                        <h3 class="text-xl font-bold mb-2">Define</h3>
+                        <p class="text-gray-400 text-sm mb-4">Duration: 2-3 weeks</p>
+                        <ul class="text-sm text-gray-400 space-y-1">
+                            <li>• Concept development</li>
+                            <li>• Technical feasibility</li>
+                            <li>• Business modeling</li>
+                            <li>• Risk assessment</li>
+                        </ul>
+                        <div class="text-cyan text-xs font-mono mt-2">Deliverable: Project Blueprint</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item reveal" style="animation-delay: 0.4s">
+                    <div class="timeline-dot"></div>
+                    <div class="ml-8">
+                        <div class="text-cyan font-mono text-sm mb-2">PHASE 03</div>
+                        <h3 class="text-xl font-bold mb-2">Design</h3>
+                        <p class="text-gray-400 text-sm mb-4">Duration: 4-8 weeks</p>
+                        <ul class="text-sm text-gray-400 space-y-1">
+                            <li>• Iterative design sprints</li>
+                            <li>• Rapid prototyping</li>
+                            <li>• User testing</li>
+                            <li>• Design system creation</li>
+                        </ul>
+                        <div class="text-cyan text-xs font-mono mt-2">Deliverable: Final Designs</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item reveal" style="animation-delay: 0.6s">
+                    <div class="timeline-dot"></div>
+                    <div class="ml-8">
+                        <div class="text-cyan font-mono text-sm mb-2">PHASE 04</div>
+                        <h3 class="text-xl font-bold mb-2">Develop</h3>
+                        <p class="text-gray-400 text-sm mb-4">Duration: 8-16 weeks</p>
+                        <ul class="text-sm text-gray-400 space-y-1">
+                            <li>• Agile development</li>
+                            <li>• Quality assurance</li>
+                            <li>• Performance optimization</li>
+                            <li>• Security audits</li>
+                        </ul>
+                        <div class="text-cyan text-xs font-mono mt-2">Deliverable: Production-Ready Product</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item reveal" style="animation-delay: 0.8s">
+                    <div class="timeline-dot"></div>
+                    <div class="ml-8">
+                        <div class="text-cyan font-mono text-sm mb-2">PHASE 05</div>
+                        <h3 class="text-xl font-bold mb-2">Deliver</h3>
+                        <p class="text-gray-400 text-sm mb-4">Duration: Ongoing</p>
+                        <ul class="text-sm text-gray-400 space-y-1">
+                            <li>• Launch strategy</li>
+                            <li>• Market deployment</li>
+                            <li>• Performance monitoring</li>
+                            <li>• Iterative improvements</li>
+                        </ul>
+                        <div class="text-cyan text-xs font-mono mt-2">Deliverable: Market Success</div>
+                    </div>
+                </div>
             </div>
-            <div class="glass rounded-2xl overflow-hidden card-hover">
-              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=60" alt="Physical product 4" class="w-full h-48 object-cover" loading="lazy" decoding="async">
+            
+            <div class="glass p-8 rounded-2xl mt-12 text-center reveal">
+                <p class="text-xl italic">"Every project is unique, but our commitment to excellence never wavers."</p>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROCESS (boxed) -->
-  <section class="py-20">
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="glass rounded-3xl p-8 md:p-12 reveal">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-center mb-4">Our Process</h2>
-        <p class="text-center text-gray-400 mb-6">Six guiding principles that shape our solutions</p>
-
-        <div class="grid md:grid-cols-3 gap-6">
-          <div class="flex flex-col items-start gap-3 p-4">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-oj-cyan/8 text-oj-cyan font-black">1</div>
-            <h3 class="font-bold">Vision</h3>
-            <p class="text-sm text-gray-300">This is the foundation of our design process. It involves defining the overall goals and objectives for the project. We consider the bigger picture and set a clear direction to guide our work.</p>
-          </div>
-
-          <div class="flex flex-col items-start gap-3 p-4">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-oj-purple/8 text-oj-purple font-black">2</div>
-            <h3 class="font-bold">Research</h3>
-            <p class="text-sm text-gray-300">We conduct thorough research to gather valuable insights. This includes studying relevant data, trends, and technologies that can inform our design decisions. Research helps us stay up-to-date and ensures that our solutions are innovative and effective.</p>
-          </div>
-
-          <div class="flex flex-col items-start gap-3 p-4">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-yellow-400/10 text-yellow-400 font-black">3</div>
-            <h3 class="font-bold">User & Market Analysis</h3>
-            <p class="text-sm text-gray-300">Understanding the needs and preferences of our target audience is crucial. We analyse user behaviours, demographics, and pain points. Additionally, we examine the market landscape to identify opportunities and challenges.</p>
-          </div>
-
-          <div class="flex flex-col items-start gap-3 p-4">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-oj-cyan/8 text-oj-cyan font-black">4</div>
-            <h3 class="font-bold">Ideation</h3>
-            <p class="text-sm text-gray-300">In this creative phase, we brainstorm and generate a wide range of ideas. We encourage innovative thinking and explore multiple design concepts. This step is about thinking outside the box and finding unique solutions.</p>
-          </div>
-
-          <div class="flex flex-col items-start gap-3 p-4">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-oj-purple/8 text-oj-purple font-black">5</div>
-            <h3 class="font-bold">Prototype / Testing</h3>
-            <p class="text-sm text-gray-300">We bring our ideas to life through prototypes — from sketches to interactive models. Prototyping allows us to test and refine designs iteratively, gathering feedback from users and stakeholders for continual improvement.</p>
-          </div>
-
-          <div class="flex flex-col items-start gap-3 p-4">
-            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-yellow-400/10 text-yellow-400 font-black">6</div>
-            <h3 class="font-bold">Validation</h3>
-            <p class="text-sm text-gray-300">In the final stage, we validate our designs to ensure they meet the project's goals. This involves usability testing and performance checks to make sure solutions are functional and ready for implementation.</p>
-          </div>
+    </section>
+    
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 px-6 lg:px-12 bg-gradient-to-b from-navy to-midnight">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan font-mono text-sm">OUR WORK</span>
+                <h2 class="text-4xl lg:text-5xl font-black mt-4">
+                    Products That <span class="gradient-text">Define Categories</span>
+                </h2>
+            </div>
+            
+            <!-- Filter Bar -->
+            <div class="flex justify-center mb-12 reveal">
+                <div class="glass rounded-full p-2">
+                    <button class="filter-btn active px-6 py-2 rounded-full text-sm font-medium transition-all" data-filter="all">All</button>
+                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all hover:text-cyan" data-filter="digital">Digital</button>
+                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all hover:text-cyan" data-filter="physical">Physical</button>
+                    <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-all hover:text-cyan" data-filter="brand">Brand</button>
+                </div>
+            </div>
+            
+            <!-- Portfolio Grid -->
+            <div class="space-y-12">
+                <!-- Case Study 1 - Full Width -->
+                <div class="card-hover glass rounded-3xl overflow-hidden reveal filter-item digital">
+                    <div class="grid lg:grid-cols-2 gap-0">
+                        <div class="p-12">
+                            <div class="space-y-6">
+                                <div>
+                                    <h3 class="text-3xl font-bold mb-2">NEXUS BANKING</h3>
+                                    <p class="text-cyan text-lg">Reimagining Digital Finance</p>
+                                </div>
+                                <p class="text-gray-400">Traditional bank losing millennial customers needed a complete digital transformation. We created an AI-powered financial wellness platform that makes banking intuitive and engaging.</p>
+                                <div class="grid grid-cols-3 gap-6 py-6">
+                                    <div>
+                                        <div class="text-2xl font-bold text-cyan">40%</div>
+                                        <div class="text-sm text-gray-400">Increase in Engagement</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-cyan">2M+</div>
+                                        <div class="text-sm text-gray-400">Active Users</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-cyan">4.9</div>
+                                        <div class="text-sm text-gray-400">App Store Rating</div>
+                                    </div>
+                                </div>
+                                <button class="magnetic-button border-2 border-cyan text-cyan px-6 py-3 rounded-full font-semibold hover:bg-cyan hover:text-navy transition-all">
+                                    View Case Study →
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-cyan/20 to-cyan-light/10 flex items-center justify-center p-12">
+                            <div class="w-full h-64 glass rounded-xl flex items-center justify-center text-6xl">📱</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Case Study 2 & 3 - Half Width Grid -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card-hover glass rounded-2xl p-8 reveal filter-item physical" style="animation-delay: 0.2s">
+                        <div class="h-32 bg-gradient-to-br from-cyan/20 to-cyan-light/10 rounded-xl flex items-center justify-center text-4xl mb-6">🏠</div>
+                        <h3 class="text-xl font-bold mb-2">AURA SMART HOME</h3>
+                        <p class="text-cyan mb-2">The Invisible Interface</p>
+                        <p class="text-gray-400 text-sm mb-4">IoT ecosystem with voice-first design that learns and adapts to user behavior patterns.</p>
+                        <div class="text-xs text-gray-400 mb-4">Winner: Red Dot Design Award 2024</div>
+                        <button class="text-cyan text-sm hover:underline">Explore Project →</button>
+                    </div>
+                    
+                    <div class="card-hover glass rounded-2xl p-8 reveal filter-item physical" style="animation-delay: 0.4s">
+                        <div class="h-32 bg-gradient-to-br from-cyan/20 to-cyan-light/10 rounded-xl flex items-center justify-center text-4xl mb-6">🚴</div>
+                        <h3 class="text-xl font-bold mb-2">VELOCITY BIKES</h3>
+                        <p class="text-cyan mb-2">Sustainable Urban Mobility</p>
+                        <p class="text-gray-400 text-sm mb-4">Carbon-negative e-bike design with regenerative braking and solar charging capabilities.</p>
+                        <div class="text-xs text-gray-400 mb-4">10,000 units, 3 continents</div>
+                        <button class="text-cyan text-sm hover:underline">Explore Project →</button>
+                    </div>
+                </div>
+                
+                <!-- Case Study 4 - Full Width -->
+                <div class="card-hover glass rounded-3xl overflow-hidden reveal filter-item digital">
+                    <div class="grid lg:grid-cols-2 gap-0">
+                        <div class="bg-gradient-to-br from-cyan/20 to-cyan-light/10 flex items-center justify-center p-12">
+                            <div class="w-full h-64 glass rounded-xl flex items-center justify-center text-6xl">🧠</div>
+                        </div>
+                        <div class="p-12">
+                            <div class="space-y-6">
+                                <div>
+                                    <h3 class="text-3xl font-bold mb-2">HEALTHCARE.AI</h3>
+                                    <p class="text-cyan text-lg">Predictive Diagnostics Platform</p>
+                                </div>
+                                <p class="text-gray-400">Machine learning platform for early disease detection using computer vision and patient data analysis to improve healthcare outcomes.</p>
+                                <div class="grid grid-cols-3 gap-6 py-6">
+                                    <div>
+                                        <div class="text-2xl font-bold text-cyan">97%</div>
+                                        <div class="text-sm text-gray-400">Accuracy Rate</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-cyan">500+</div>
+                                        <div class="text-sm text-gray-400">Hospitals</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-cyan">1M+</div>
+                                        <div class="text-sm text-gray-400">Patients Helped</div>
+                                    </div>
+                                </div>
+                                <button class="magnetic-button border-2 border-cyan text-cyan px-6 py-3 rounded-full font-semibold hover:bg-cyan hover:text-navy transition-all">
+                                    Explore Project →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Case Study 5 & 6 - Half Width Grid -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card-hover glass rounded-2xl p-8 reveal filter-item physical" style="animation-delay: 0.2s">
+                        <div class="h-32 bg-gradient-to-br from-cyan/20 to-cyan-light/10 rounded-xl flex items-center justify-center text-4xl mb-6">🌊</div>
+                        <h3 class="text-xl font-bold mb-2">OCEAN CLEANUP DRONE</h3>
+                        <p class="text-cyan mb-2">Autonomous Marine Conservation</p>
+                        <p class="text-gray-400 text-sm mb-4">Solar-powered autonomous drone that collects ocean plastic using advanced filtration systems.</p>
+                        <div class="text-xs text-gray-400 mb-4">Removing 1 ton of plastic daily</div>
+                        <button class="text-cyan text-sm hover:underline">View Project →</button>
+                    </div>
+                    
+                    <div class="card-hover glass rounded-2xl p-8 reveal filter-item brand" style="animation-delay: 0.4s">
+                        <div class="h-32 bg-gradient-to-br from-cyan/20 to-cyan-light/10 rounded-xl flex items-center justify-center text-4xl mb-6">🧘</div>
+                        <h3 class="text-xl font-bold mb-2">MINDFUL WORKSPACE</h3>
+                        <p class="text-cyan mb-2">Productivity Through Wellness</p>
+                        <p class="text-gray-400 text-sm mb-4">Biometric-responsive office furniture that adapts to stress levels and promotes healthy work habits.</p>
+                        <div class="text-xs text-gray-400 mb-4">30% improvement in focus metrics</div>
+                        <button class="text-cyan text-sm hover:underline">View Project →</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16 reveal">
+                <button class="magnetic-button bg-gradient-to-r from-cyan to-cyan-light text-navy px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all">
+                    View All 50+ Projects →
+                </button>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="grid lg:grid-cols-2 gap-10 items-center">
-        <div class="reveal">
-          <h2 class="text-3xl md:text-4xl font-extrabold mb-4">About Our Universe</h2>
-          <p class="text-gray-300 mb-6">We are a design-led studio dedicated to solving problems through products and services that transcend ordinary experience.</p>
-
-          <h3 class="font-bold text-oj-cyan">Our Mission</h3>
-          <p class="text-gray-300 mb-4">At the heart of our company is a mission to constantly develop and deliver life changing solutions.</p>
-
-          <h3 class="font-bold text-oj-purple">Our Vision</h3>
-          <p class="text-gray-300 mb-6">To make life fun and easier for everyday people. We are committed to making this vision a reality by focusing on creating products and services that simplify daily tasks for people.</p>
-
-          <p class="text-gray-400">Since our founding, we have dedicated ourselves to making a positive impact through thoughtful and purposeful design. Our journey is just beginning, and we are excited to continue growing and evolving with you. Together, we can achieve great things and make life a little easier for everyone.</p>
-
-          <div class="mt-6 glass p-4 rounded-lg">
-            <h4 class="font-bold">Our Design Philosophy</h4>
-            <p class="text-gray-300">At Ojutu, we embraced a design philosophy known as BASED, which stands for Beautiful, Accessible, Safe, Effective, and Durable. We believe that for any solution to be successful, it must embody these principles.</p>
-          </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="py-24 px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan font-mono text-sm">CLIENT STORIES</span>
+                <h2 class="text-4xl lg:text-5xl font-black mt-4">
+                    Trusted by <span class="gradient-text">Industry Leaders</span>
+                </h2>
+            </div>
+            
+            <!-- Testimonial Cards -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="card-hover glass p-8 rounded-2xl reveal">
+                    <div class="mb-6">
+                        <div class="text-4xl mb-4">"</div>
+                        <p class="text-gray-300 mb-4">Ojutu transformed our entire digital ecosystem. Their BASED methodology didn't just solve our immediate problems—it future-proofed our business.</p>
+                        <div>
+                            <div class="font-semibold">Sarah Chen</div>
+                            <div class="text-sm text-cyan">CTO, Fortune 500 Tech Company</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-hover glass p-8 rounded-2xl reveal" style="animation-delay: 0.2s">
+                    <div class="mb-6">
+                        <div class="text-4xl mb-4">"</div>
+                        <p class="text-gray-300 mb-4">The level of craft and attention to detail is unmatched. They delivered a product that our customers genuinely love using every day.</p>
+                        <div>
+                            <div class="font-semibold">Marcus Williams</div>
+                            <div class="text-sm text-cyan">VP Product, Leading Fintech</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-hover glass p-8 rounded-2xl reveal" style="animation-delay: 0.4s">
+                    <div class="mb-6">
+                        <div class="text-4xl mb-4">"</div>
+                        <p class="text-gray-300 mb-4">Working with Ojutu felt like adding a world-class design team to our company overnight. Exceptional talent and even better results.</p>
+                        <div>
+                            <div class="font-semibold">Elena Rodriguez</div>
+                            <div class="text-sm text-cyan">Founder, Series B Startup</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Logo Bar -->
+            <div class="flex justify-center items-center space-x-12 opacity-50 reveal">
+                <div class="text-2xl font-bold">Apple</div>
+                <div class="text-2xl font-bold">Google</div>
+                <div class="text-2xl font-bold">Microsoft</div>
+                <div class="text-2xl font-bold">Tesla</div>
+                <div class="text-2xl font-bold">Nike</div>
+            </div>
         </div>
-
-        <div class="reveal">
-          <div class="glass rounded-2xl overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=60" alt="Team collaboration" class="w-full h-full object-cover" loading="lazy" decoding="async">
-          </div>
+    </section>
+    
+    <!-- Insights Section -->
+    <section class="py-24 px-6 lg:px-12 bg-gradient-to-b from-navy to-midnight">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan font-mono text-sm">INSIGHTS</span>
+                <h2 class="text-4xl lg:text-5xl font-black mt-4">
+                    Thoughts on Design, Technology, <span class="gradient-text">and Tomorrow</span>
+                </h2>
+            </div>
+            
+            <!-- Featured Article -->
+            <div class="card-hover glass rounded-3xl overflow-hidden mb-12 reveal">
+                <div class="grid lg:grid-cols-2 gap-0">
+                    <div class="p-12">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-2">The Future of Tactile Interfaces in a Digital World</h3>
+                                <p class="text-gray-400">Why physical feedback will define the next decade of UX design and human-computer interaction.</p>
+                            </div>
+                            <div class="flex items-center space-x-4 text-sm text-gray-400">
+                                <span>8 min read</span>
+                                <span>•</span>
+                                <span>Design</span>
+                                <span>•</span>
+                                <span>Future Tech</span>
+                            </div>
+                            <button class="magnetic-button border-2 border-cyan text-cyan px-6 py-3 rounded-full font-semibold hover:bg-cyan hover:text-navy transition-all">
+                                Read More →
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-cyan/20 to-cyan-light/10 flex items-center justify-center p-12">
+                        <div class="w-full h-48 glass rounded-xl flex items-center justify-center text-5xl">📱</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Article Grid -->
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="card-hover glass p-6 rounded-2xl reveal">
+                    <div class="h-32 bg-gradient-to-br from-cyan/20 to-cyan-light/10 rounded-xl flex items-center justify-center text-3xl mb-4">🎯</div>
+                    <h3 class="font-bold mb-2">BASED Methodology: A Framework for Excellence</h3>
+                    <p class="text-gray-400 text-sm mb-4">How our five principles guide every design decision we make.</p>
+                    <div class="flex items-center space-x-2 text-xs text-gray-400">
+                        <span>5 min read</span>
+                        <span>•</span>
+                        <span>Methodology</span>
+                    </div>
+                </div>
+                
+                <div class="card-hover glass p-6 rounded-2xl reveal" style="animation-delay: 0.2s">
+                    <div class="h-32 bg-gradient-to-br from-cyan/20 to-cyan-light/10 rounded-xl flex items-center justify-center text-3xl mb-4">📊</div>
+                    <h3 class="font-bold mb-2">Why 90% of Products Fail</h3>
+                    <p class="text-gray-400 text-sm mb-4">And how to be in the 10% that succeed through user-centered design.</p>
+                    <div class="flex items-center space-x-2 text-xs text-gray-400">
+                        <span>7 min read</span>
+                        <span>•</span>
+                        <span>Strategy</span>
+                    </div>
+                </div>
+                
+                <div class="card-hover glass p-6 rounded-2xl reveal" style="animation-delay: 0.4s">
+                    <div class="h-32 bg-gradient-to-br from-cyan/20 to-cyan-light/10 rounded-xl flex items-center justify-center text-3xl mb-4">⚛️</div>
+                    <h3 class="font-bold mb-2">Designing for Quantum Computing</h3>
+                    <p class="text-gray-400 text-sm mb-4">A primer on interface design for quantum systems and applications.</p>
+                    <div class="flex items-center space-x-2 text-xs text-gray-400">
+                        <span>12 min read</span>
+                        <span>•</span>
+                        <span>Future Tech</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Newsletter CTA -->
+            <div class="glass p-8 rounded-2xl text-center reveal">
+                <h3 class="text-xl font-bold mb-4">Get Monthly Insights from Our Design Team</h3>
+                <div class="flex max-w-md mx-auto">
+                    <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 bg-transparent border border-gray-600 rounded-l-full focus:outline-none focus:border-cyan">
+                    <button class="magnetic-button bg-gradient-to-r from-cyan to-cyan-light text-navy px-8 py-3 rounded-r-full font-semibold hover:shadow-lg transition-all">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services" class="py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-10 reveal">
-        <h2 class="text-3xl md:text-4xl font-extrabold">Services</h2>
-        <p class="text-gray-400">Three dimensions of creative excellence</p>
-      </div>
-
-      <div class="grid lg:grid-cols-3 gap-6">
-        <article class="glass rounded-3xl p-6 reveal">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-oj-cyan/8 text-oj-cyan">P</div>
-          <h3 class="font-bold mb-2">Physical Product Design</h3>
-          <p class="text-gray-300">We specialize in designing new products and help clients improve existing ones for greater impact. Our work spans multiple areas of life and we work closely with clients and partners to deliver solutions that meet requirements and market demands.</p>
-        </article>
-
-        <article class="glass rounded-3xl p-6 reveal">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-oj-purple/8 text-oj-purple">D</div>
-          <h3 class="font-bold mb-2">Digital Product Design</h3>
-          <p class="text-gray-300">We create user-friendly websites, apps, and digital platforms. Our process involves understanding user needs, behaviors and working closely with stakeholders to ensure products look great and function efficiently.</p>
-        </article>
-
-        <article class="glass rounded-3xl p-6 reveal">
-          <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-yellow-400/10 text-yellow-400">M</div>
-          <h3 class="font-bold mb-2">Manufacturing Services</h3>
-          <p class="text-gray-300">We specialize in sourcing high-quality materials, manufacturers and suppliers. Our network and experience secure competitive pricing, timely production and high standards for every project.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="py-20">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-8 reveal">
-        <h2 class="text-3xl md:text-4xl font-extrabold">Contact Us</h2>
-        <p class="text-gray-400">Let's make life easier, together.</p>
-      </div>
-
-      <div class="grid lg:grid-cols-2 gap-8">
-        <div class="reveal">
-          <div class="glass rounded-2xl overflow-hidden h-full min-h-[300px]">
-            <!-- Replace coords/iframe key with your actual Business place if needed -->
-            <iframe src="https://www.google.com/maps?q=2757+Battleford+Road+Mississauga+Canada&output=embed" class="w-full h-full border-0 min-h-[300px]" loading="lazy" aria-hidden="false"></iframe>
-          </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Left Side -->
+                <div class="space-y-8 reveal">
+                    <div>
+                        <span class="text-cyan font-mono text-sm">GET IN TOUCH</span>
+                        <h2 class="text-4xl lg:text-5xl font-black mt-4">
+                            Let's Create Something<br>
+                            <span class="gradient-text">Extraordinary Together</span>
+                        </h2>
+                    </div>
+                    
+                    <p class="text-lg text-gray-400 max-w-lg">
+                        Whether you're a startup with a vision or an enterprise ready to innovate, we're here to help bring your ideas to life.
+                    </p>
+                    
+                    <!-- Contact Options -->
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center text-navy font-bold">📧</div>
+                            <div>
+                                <div class="font-semibold">Email</div>
+                                <div class="text-cyan">hello@ojutu.com</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center text-navy font-bold">📱</div>
+                            <div>
+                                <div class="font-semibold">Phone</div>
+                                <div class="text-cyan">+1 (437) 988-9856</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center text-navy font-bold">📍</div>
+                            <div>
+                                <div class="font-semibold">Location</div>
+                                <div class="text-cyan">Mississauga, ON, Canada</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center text-navy font-bold">🌐</div>
+                            <div>
+                                <div class="font-semibold">Availability</div>
+                                <div class="text-cyan">Global Projects Welcome</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Office Hours -->
+                    <div class="glass p-6 rounded-2xl">
+                        <div class="font-semibold mb-2">Office Hours</div>
+                        <div class="text-gray-400 text-sm">Monday - Friday: 9:00 AM - 6:00 PM EST</div>
+                        <div class="text-cyan text-sm mt-1">Response Time: Within 24 hours</div>
+                    </div>
+                </div>
+                
+                <!-- Right Side - Contact Form -->
+                <div class="glass p-8 rounded-3xl reveal" style="animation-delay: 0.2s">
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Name *</label>
+                                <input type="text" class="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-cyan transition-colors" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Company</label>
+                                <input type="text" class="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-cyan transition-colors">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Email *</label>
+                            <input type="email" class="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-cyan transition-colors" required>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Project Type</label>
+                                <select class="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-cyan transition-colors">
+                                    <option value="" class="bg-navy">Select a type</option>
+                                    <option value="digital" class="bg-navy">Digital Product</option>
+                                    <option value="physical" class="bg-navy">Physical Product</option>
+                                    <option value="brand" class="bg-navy">Brand & Strategy</option>
+                                    <option value="consulting" class="bg-navy">Consulting</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Budget Range</label>
+                                <select class="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-cyan transition-colors">
+                                    <option value="" class="bg-navy">Select range</option>
+                                    <option value="50k-100k" class="bg-navy">$50K - $100K</option>
+                                    <option value="100k-250k" class="bg-navy">$100K - $250K</option>
+                                    <option value="250k+" class="bg-navy">$250K+</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Project Description *</label>
+                            <textarea rows="4" class="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-cyan transition-colors resize-none" placeholder="Tell us about your project, goals, and timeline..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="magnetic-button w-full bg-gradient-to-r from-cyan to-cyan-light text-navy py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all">
+                            Send Message →
+                        </button>
+                    </form>
+                    
+                    <div class="flex justify-center space-x-6 mt-8 pt-8 border-t border-gray-700">
+                        <button class="magnetic-button border border-cyan text-cyan px-6 py-2 rounded-full text-sm hover:bg-cyan hover:text-navy transition-all">
+                            Schedule a Call
+                        </button>
+                        <button class="magnetic-button border border-cyan text-cyan px-6 py-2 rounded-full text-sm hover:bg-cyan hover:text-navy transition-all">
+                            Download Brief
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="reveal">
-          <div class="mb-6">
-            <h3 class="text-2xl font-bold mb-4">Get in touch</h3>
-            <ul class="space-y-3 text-gray-300">
-              <li><strong>Address:</strong> 2757 Battleford Road, Mississauga, Canada</li>
-              <li><strong>Email:</strong> <a href="mailto:hello@ojutu.example" class="text-oj-cyan">hello@ojutu.example</a></li>
-              <li><strong>Phone:</strong> <a href="tel:+14379889856" class="text-oj-cyan">+1 (437) 988-9856</a></li>
-              <li><strong>Instagram:</strong> <a href="https://www.instagram.com/ojutulimited" target="_blank" rel="noopener noreferrer" class="text-oj-cyan">@ojutulimited</a></li>
-            </ul>
-          </div>
-
-          <form class="space-y-4" onsubmit="event.preventDefault(); alert('Thanks — message sent (demo)')" aria-label="Contact form">
-            <label class="block">
-              <span class="sr-only">Name</span>
-              <input type="text" placeholder="Your name" class="h-12 w-full rounded-lg glass px-4 focus:ring-2 focus:ring-oj-cyan/20" required>
-            </label>
-            <label class="block">
-              <span class="sr-only">Email</span>
-              <input type="email" placeholder="Your email" class="h-12 w-full rounded-lg glass px-4 focus:ring-2 focus:ring-oj-cyan/20" required>
-            </label>
-            <label class="block">
-              <span class="sr-only">Message</span>
-              <textarea rows="4" placeholder="Message" class="w-full rounded-lg glass px-4 py-3 focus:ring-2 focus:ring-oj-cyan/20" required></textarea>
-            </label>
-            <button class="w-full py-3 rounded-full bg-oj-cyan text-black font-semibold">Send Message</button>
-          </form>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-16 px-6 lg:px-12 bg-midnight">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <!-- Column 1 -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center font-bold text-navy">O</div>
+                        <span class="text-xl font-bold">OJUTU</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Solving complex problems through BASED design.</p>
+                    <div class="flex space-x-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-navy font-bold text-sm cursor-pointer hover:scale-110 transition-all">f</div>
+                        <div class="w-8 h-8 bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-navy font-bold text-sm cursor-pointer hover:scale-110 transition-all">t</div>
+                        <div class="w-8 h-8 bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-navy font-bold text-sm cursor-pointer hover:scale-110 transition-all">in</div>
+                        <div class="w-8 h-8 bg-gradient-to-r from-cyan to-cyan-light rounded-full flex items-center justify-center text-navy font-bold text-sm cursor-pointer hover:scale-110 transition-all">ig</div>
+                    </div>
+                </div>
+                
+                <!-- Column 2 -->
+                <div class="space-y-4">
+                    <h4 class="font-bold">SERVICES</h4>
+                    <div class="space-y-2 text-sm text-gray-400">
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Digital Design</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Physical Products</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Manufacturing</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Brand Strategy</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Innovation Consulting</div>
+                    </div>
+                </div>
+                
+                <!-- Column 3 -->
+                <div class="space-y-4">
+                    <h4 class="font-bold">COMPANY</h4>
+                    <div class="space-y-2 text-sm text-gray-400">
+                        <div class="hover:text-cyan cursor-pointer transition-colors">About Us</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Process</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Portfolio</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Insights</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Careers</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Contact</div>
+                    </div>
+                </div>
+                
+                <!-- Column 4 -->
+                <div class="space-y-4">
+                    <h4 class="font-bold">RESOURCES</h4>
+                    <div class="space-y-2 text-sm text-gray-400">
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Case Studies</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Design System</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">API Documentation</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Partner Portal</div>
+                        <div class="hover:text-cyan cursor-pointer transition-colors">Privacy Policy</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+                <div>© 2024 Ojutu. Solving for tomorrow, today.</div>
+                <div>Made with BASED principles in Canada 🇨🇦</div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="py-8 border-t border-white/6">
-    <div class="max-w-6xl mx-auto px-6 text-center text-gray-400 text-sm">
-      <p>&copy; <span id="year">2025</span> Ojutu. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script>
-    // Simple DOM: menu toggle + reveal on scroll + set year
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if(menuBtn){
-      menuBtn.addEventListener('click', () => {
-        const open = mobileMenu.classList.toggle('hidden');
-        const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
-        menuBtn.setAttribute('aria-expanded', (!expanded).toString());
-      });
-    }
-
-    // Reveal on scroll (staggered + prefers-reduced-motion)
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const reveals = document.querySelectorAll('.reveal');
-    if(!prefersReduced){
-      reveals.forEach((el, i) => el.style.setProperty('--reveal-delay', `${i*80}ms`));
-      const io = new IntersectionObserver((entries)=>{
-        entries.forEach(e => {
-          if(e.isIntersecting){
-            e.target.classList.add('visible');
-            io.unobserve(e.target);
-          }
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }, 100);
         });
-      }, {threshold: 0.12});
-      reveals.forEach(r => io.observe(r));
-    } else {
-      reveals.forEach(r => r.classList.add('visible'));
-    }
-
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+        
+        // Cursor hover effects
+        const hoverElements = document.querySelectorAll('a, button, .card-hover, .magnetic-button');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+        
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+        
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+        
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+        
+        // Reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        
+        // Counter animation
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = Math.floor(current);
+            }, 50);
+        });
+        
+        // Portfolio filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const filterItems = document.querySelectorAll('.filter-item');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active', 'bg-cyan', 'text-navy'));
+                // Add active class to clicked button
+                btn.classList.add('active', 'bg-cyan', 'text-navy');
+                
+                const filter = btn.getAttribute('data-filter');
+                
+                filterItems.forEach(item => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+        // Set initial active filter
+        document.querySelector('.filter-btn[data-filter="all"]').classList.add('active', 'bg-cyan', 'text-navy');
+        
+        // Magnetic buttons
+        const magneticButtons = document.querySelectorAll('.magnetic-button');
+        magneticButtons.forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                button.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'translate(0, 0)';
+            });
+        });
+        
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Form validation
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Simple form validation
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.style.borderColor = '#ef4444';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '#00D4FF';
+                    }
+                });
+                
+                if (isValid) {
+                    // Form submission logic here
+                    alert('Thank you for your message! We\'ll get back to you within 24 hours.');
+                    form.reset();
+                }
+            });
+        }
+    </script>
 </body>
-</html>
+</html> >• SaaS Platform Architecture</li>
+                        <li>• Design System Development</li>
+                        <li>• Prototype to Production</li>
+                    </ul>
+                    <div class="text-cyan text-sm font-mono">Recent: Banking app with 2M+ active users</div>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div class="card-hover glass p-8 rounded-2xl group reveal" style="animation-delay: 0.2s">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Physical Product Design</h3>
+                            <p class="text-gray-400">Industrial Design • Consumer Electronics • Medical Devices</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center group-hover:scale-110 transition-all text-2xl">
+                            📦
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                        <li>• Sustainable Packaging</li>
+                        <li>• Manufacturing DFM/DFA</li>
+                        <li>• Production Management</li>
+                    </ul>
+                    <div class="text-cyan text-sm font-mono">Recent: Award-winning smart home device</div>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="card-hover glass p-8 rounded-2xl group reveal" style="animation-delay: 0.4s">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Brand & Strategy</h3>
+                            <p class="text-gray-400">Brand Identity • Go-to-Market • User Research</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center group-hover:scale-110 transition-all text-2xl">
+                            🎯
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                        <li>• Competitive Analysis</li>
+                        <li>• Design Thinking Workshops</li>
+                        <li>• Innovation Consulting</li>
+                    </ul>
+                    <div class="text-cyan text-sm font-mono">Recent: Rebrand driving 300% growth</div>
+                </div>
+                
+                <!-- Service Card 4 -->
+                <div class="card-hover glass p-8 rounded-2xl group reveal" style="animation-delay: 0.6s">
+                    <div class="flex items-start justify-between mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Emerging Technology</h3>
+                            <p class="text-gray-400">AI/ML Integration • IoT Ecosystems • AR/VR Experiences</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-cyan to-cyan-light rounded-lg flex items-center justify-center group-hover:scale-110 transition-all text-2xl">
+                            🚀
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                        <li>• Blockchain Solutions</li>
+                        <li>• Voice Interfaces</li>
+                        <li>• Quantum-Ready Systems</li>
+                    </ul>
+                    <div class="text-cyan text-sm font-mono">Recent: AI assistant with 95% accuracy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Process Section -->
+    <section id="process" class="py-24 px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-cyan font-mono text-sm">HOW WE WORK</span>
+                <h2 class="text-4xl lg:text-5xl font-black mt-4">
+                    A Process Refined Over <span class="gradient-text">50+ Successful Launches</span>
+                </h2>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="grid md:grid-cols-5 gap-8">
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="ml-8">
+                        <div class="text-cyan font-mono text-sm mb-2">PHASE 01</div>
+                        <h3 class="text-xl font-bold mb-2">Discover</h3>
+                        <p class="text-gray-400 text-sm mb-4">Duration: 1-2 weeks</p>
+                        <ul class="text-sm text-gray-400 space-y-1">
+                            <li

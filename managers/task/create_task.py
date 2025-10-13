@@ -2,7 +2,8 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from ai_model import model
-from .model import TaskDecompositionOutput 
+from .model import TaskDecompositionOutput
+from .prompt import TASK_MANAGER_PROMPT
 
 
 def task_creator(goal):
@@ -12,17 +13,12 @@ def task_creator(goal):
     task_model = model.with_structured_output(TaskDecompositionOutput)
     prompt = ChatPromptTemplate.from_messages(
         [
-            SystemMessage(
-                content="You are an expert in course design. "
-                "Generate a detailed course outline based on the provided course name and description."
-            ),
-            HumanMessage(
-                content=str(goal)
-            ),
+            ("system", TASK_MANAGER_PROMPT),
+            ("user", "{goal}"),
         ]
-    )
-
+    ).invoke({"goal": str(goal)})
     response:TaskDecompositionOutput = task_model.invoke(prompt) # type: ignore
+    response.tasks[0]
     return response
     
     

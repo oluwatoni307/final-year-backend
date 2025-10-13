@@ -13,7 +13,8 @@ class status_state(str, Enum):
 
 
 class milestone(BaseModel):
-    
+    index: int
+    description: str = Field(description=" brief description of the milestone")
     objective: str = Field(description=" What are you building/developing/ achieving")
     success_criteria: str = Field(description=" specific mesurable completion condition")
     targetDate: datetime = Field(description="specific end date")
@@ -33,24 +34,23 @@ from typing import List, Literal, Dict, Optional
 
 # ====== MODELS FOR INPUT ======
 
+# ====== INPUT MODELS ======
+
 class MilestoneInput(BaseModel):
-    """Represents a single milestone to be scheduled"""
+    milestone_id: str
     title: str
     objective: str
     success_criteria: str
-    target_date: str  # ISO format date string (YYYY-MM-DD)
-    enables: str  # What this milestone enables next
+    target_date: str  # ISO format YYYY-MM-DD
 
 class TimeSlotEntry(BaseModel):
-    """Represents an existing time commitment in the user's schedule"""
     milestone_id: str
-    time_slot: str  # Format: "HH:MM-HH:MM"
+    time_slot: str  # "HH:MM-HH:MM"
     allocated_minutes: int
     priority_score: int  # 0-100
     flexibility: Literal["low", "medium", "high"]
 
-class ExistingTimetable(BaseModel):
-    """Structure of the user's current schedule by day"""
+class WeeklySchedule(BaseModel):
     monday: List[TimeSlotEntry] = []
     tuesday: List[TimeSlotEntry] = []
     wednesday: List[TimeSlotEntry] = []
@@ -59,35 +59,22 @@ class ExistingTimetable(BaseModel):
     saturday: List[TimeSlotEntry] = []
     sunday: List[TimeSlotEntry] = []
 
-class TimekeeperInput(BaseModel):
-    """Complete input structure for the Timekeeper service"""
+class TimeMasterInput(BaseModel):
     milestone: MilestoneInput
-    existing_timetable: ExistingTimetable
-
+    existing_schedule: WeeklySchedule
 
 # ====== MODELS FOR OUTPUT ======
 
-class ScheduledTimeSlot(BaseModel):
-    """Represents a scheduled time slot with resistance metrics"""
+class MilestoneTimeSlot(BaseModel):
+    day: str  # "Monday", "Tuesday", etc.
+    time_slot: str  # "09:00-09:30"
+    minutes: int
+
+class MilestoneScheduleSummary(BaseModel):
     milestone_id: str
-    time_slot: str  # Format: "HH:MM-HH:MM"
-    allocated_minutes: int
-    priority_score: int  # 0-100
-    flexibility: Literal["low", "medium", "high"]
-    resistance_score: int  # 0-100, lower = easier integration
+    time_slots: List[MilestoneTimeSlot]
+    total_minutes: int
 
-class OptimizedTimetable(BaseModel):
-    """Complete output timetable structure organized by day"""
-    monday: List[ScheduledTimeSlot] = []
-    tuesday: List[ScheduledTimeSlot] = []
-    wednesday: List[ScheduledTimeSlot] = []
-    thursday: List[ScheduledTimeSlot] = []
-    friday: List[ScheduledTimeSlot] = []
-    saturday: List[ScheduledTimeSlot] = []
-    sunday: List[ScheduledTimeSlot] = []
-
-
-class Timekeeperoutput(BaseModel):
-    """Complete input structure for the Timekeeper service"""
-    milestoneslot: ScheduledTimeSlot
-    OptimizedTimetable: OptimizedTimetable
+class TimeMasterOutput(BaseModel):
+    updated_schedule: WeeklySchedule  # Full context
+    milestone_summaries: List[MilestoneScheduleSummary]  # All affected milestones

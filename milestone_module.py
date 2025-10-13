@@ -2,8 +2,8 @@ from langchain_core.messages import HumanMessage, SystemMessage # pyright: ignor
 from langchain_core.prompts import ChatPromptTemplate # pyright: ignore[reportMissingImports]
 from langchain_core.output_parsers import StrOutputParser # pyright: ignore[reportMissingImports]
 from ai_model import model
-from models.goal_define_model import goal_output
-from models.milestone import  milestone
+from models.goal_define_model import goal_output # type: ignore
+from models.milestone import  milestone # type: ignore
 
 
 def milestone_master(goal_info: goal_output):

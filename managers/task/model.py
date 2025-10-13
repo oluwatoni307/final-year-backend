@@ -1,5 +1,5 @@
 from typing import List, Literal
-from pydantic import BaseModel # type: ignore
+from pydantic import BaseModel, Field  # type: ignore
 
 # === INPUT MODEL ===
 class MilestoneInput(BaseModel):
@@ -9,6 +9,8 @@ class MilestoneInput(BaseModel):
     success_criteria: str
     target_date: str
     enables: str
+    timeslot: List  # "HH:MM-HH:MM"
+    previous_milestone_data : str
 
 # === OUTPUT MODEL ===
 class TaskSpecification(BaseModel):
@@ -20,16 +22,25 @@ class TaskSpecification(BaseModel):
     time_allocated: str
     cognitive_load: Literal["low", "medium", "high"]
     success_metric: str
+    day: str = Field(description="Day of the week assigned for this . Monday, Tuesday, etc.")
+    week_number: int = Field(description="Week number   for the taskwithin the milestone timeline, starting from 1")
 
 class TaskDecompositionOutput(BaseModel):
     tasks: List[TaskSpecification]
-    
+
+
+
+# Task_completion    
+
+class rating_model(BaseModel):
+    rating: int
+    feedaback: str
+ 
+ 
 class Task(TaskSpecification):
     description: str
-    rating: int
+    rating: rating_model
     status: Literal["pending", "active", "completed"]
     
     
-class rating(BaseModel):
-    rating: int
-    comment: str
+    

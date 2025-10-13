@@ -34,7 +34,7 @@ class MilestoneManager:
         new_milestone =complete_milestone(milestone_id, goal_id)
         if new_milestone != []:
             timetable =timeMaster(new_milestone, [])# type: ignore 
-            TaskManager.create_tasks(new_milestone) # pyright: ignore[reportArgumentType]
+            TaskManager.create_tasks(new_milestone, new_milestone[0]["id"])
         
         # calls TaskManager.create_tasks
          # 5️⃣  Only the *currently active* milestone is passed to TaskManager
@@ -42,7 +42,27 @@ class MilestoneManager:
          
  
     @staticmethod   
-    def return_milestone(goal_id) : #type: ignore
-        milestones =  select("milestones", {"goal_id": goal_id})
-        return milestones  
+    def return_milestone(goal_id): #type: ignore
+        raw_milestones = select("milestones", {"goal_id": goal_id})
         
+        # Transform database fields to match Flutter model expectations
+        formatted_milestones = []
+        for milestone in raw_milestones:
+            formatted_milestone = {
+                "id": milestone["id"],
+                "milestone_id": milestone["id"],  # Flutter expects this too
+                "objective": milestone["objective"],
+                "success_criteria": milestone["success_criteria"],
+                "rank": milestone["rank"],
+                "target_date": milestone["target_date"],
+                "status": milestone["status"],
+                "completion_rate": milestone["completion_rate"],
+                "assigned_timeslot": milestone["assigned_timeslot"]
+            }
+            formatted_milestones.append(formatted_milestone)
+        
+        return {
+            "goal_id": goal_id,
+            "milestones": formatted_milestones
+        }
+            
