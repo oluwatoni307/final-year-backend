@@ -46,12 +46,9 @@ def save_tasks_for_milestone(task_output: TaskDecompositionOutput, milestone_id:
             "name": task_spec.title,
             "description": detailed_description,
             "rank": idx,
-            "status": "pending",
+            "status": "active"if idx == 0 else "pending",
             "day": task_spec.day,
-            # timeslot_start and timeslot_end will be set during scheduling
-            # week_number will be calculated based on target dates
-            # today flag will be updated dynamically
-            # completion_description will be filled when task is completed
+          
             "week_details":{"week_number": task_spec.week_number,"missed":0,"completed":0,"total":week_total.get(task_spec.week_number,0)},
         }
         

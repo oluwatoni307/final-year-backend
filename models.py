@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class HabitOut(BaseModel):
     id: str
     name: str
-    minutes: int
+    minutes: int = 0  # Default to 0 if not provided
     isCompleted: bool = False
 
 class ProgressOut(BaseModel):
