@@ -15,7 +15,7 @@
 
 # def main():
 #     # GET /home
-#     show_resp(requests.get(f"{BASE_URL}/home"))
+#     # show_resp(requests.get(f"{BASE_URL}/home"))
 
 #     # GET /goals
 #     # show_resp(requests.get(f"{BASE_URL}/goals"))
@@ -55,7 +55,7 @@
 #     # }))
 
 #     # GET /goals/{goal_id}/milestones
-#     # show_resp(requests.get(f"{BASE_URL}/goals/1a2155ae-8adf-4dbe-b9bc-d78f831cc66d/milestones"))
+#     show_resp(requests.get(f"{BASE_URL}/goals/1a2155ae-8adf-4dbe-b9bc-d78f831cc66d/milestones"))
 
 #     # GET /milestones/{milestone_id}/tasks
 #     # show_resp(requests.get(f"{BASE_URL}/milestones/f6d15684-49b5-4667-af55-483b52bc00b0/tasks"))

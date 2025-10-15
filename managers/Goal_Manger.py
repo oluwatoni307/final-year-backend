@@ -90,5 +90,5 @@ class GoalManager:
 
     @staticmethod
     def getGoals():
-        goals =select("goals", filters={})
+        goals =select("goals", filters={"user_id": "test123"})
         return goals

@@ -12,7 +12,7 @@ class MilestoneManager:
     # 4️⃣  Triggered only after GoalManager.verify_and_save
     
     
-    def create_milestones(self,goal: GoalOutput) -> None:
+    def create_milestones(self,goal) -> None:
         """
         Returns N milestone objects ready to be bulk-inserted into Supabase
         (status = 'pending').
@@ -49,16 +49,17 @@ class MilestoneManager:
         formatted_milestones = []
         for milestone in raw_milestones:
             formatted_milestone = {
-                "id": milestone["id"],
-                "milestone_id": milestone["id"],  # Flutter expects this too
-                "objective": milestone["objective"],
-                "success_criteria": milestone["success_criteria"],
-                "rank": milestone["rank"],
-                "target_date": milestone["target_date"],
-                "status": milestone["status"],
-                "completion_rate": milestone["completion_rate"],
-                "assigned_timeslot": milestone["assigned_timeslot"]
-            }
+    "id": milestone.get("id"),
+    "milestone_id": milestone.get("id"),  # Flutter expects this too
+    "objective": milestone.get("objective"),
+    "success_criteria": milestone.get("success_criteria"),
+    "rank": milestone.get("rank"),
+    "target_date": milestone.get("target_date"),
+    "status": milestone.get("status"),
+    "completion_rate": milestone.get("completion_rate"),
+    "assigned_timeslot": milestone.get("assigned_timeslot")
+}
+
             formatted_milestones.append(formatted_milestone)
         
         return {

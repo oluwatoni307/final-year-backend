@@ -2,11 +2,12 @@ from uuid import UUID
 
 from managers.task.retrieve_task_data import get_today_tasks
 from managers.task.save_task import save_tasks_for_milestone
+from managers.task.complete_task import task_maker
 from models import HabitOut, HomeDataOut, InsightOut, ProgressOut
 from managers.db import DAYS, get_active_tasks, select
 
 from .milestones.model import milestone
-from .task.model import Task
+from .task.model import Task, TaskSpecification
 from .task.create_task import task_creator
 
 def generate_insight(daily_completed_tasks, daily_total, weekly_completed_tasks, weekly_total):
@@ -41,16 +42,24 @@ class TaskManager:
         }
 
 
-    def mark_active(self,task_id: UUID) -> None:
-        """Set task.status = 'active'."""
 
-    def complete_task(self,task_id: UUID) -> None:
+    
+    @staticmethod
+    def complete_task(task: TaskSpecification):
         # """Set task.status = 'completed'."""
-        pass
+        response =task_maker(task)
+        return response
+    
+    
+    
+    
+    
     @staticmethod
     def return_task_list(milestone_id: str): # type: ignore
         tasklist = select("tasks", {"milestone_id": milestone_id})
         return tasklist
+    
+    
 
     def generate_insight(daily_completed_tasks, daily_total, weekly_completed_tasks, weekly_total): # type: ignore
         raise NotImplementedError

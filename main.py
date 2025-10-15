@@ -8,7 +8,7 @@ from managers.Goal_Manger import GoalManager
 from managers.goal.model import GoalSave, goal_input, GoalOutput
 from managers.milestone_manager import MilestoneManager
 from  managers.milestones.model import milestones
-from managers.task.model import Task
+from managers.task.model import Task, TaskSpecification
 from managers.task_manager import TaskManager
 from sample import *
 from models import HabitOut, HomeDataOut, InsightOut, MonthlyAnalyticsOut, ProgressOut
@@ -85,10 +85,10 @@ def get_task_completion(task_id: str):
     
 
 @app.patch("/tasks/{task_id}")
-def update_task_completion(task_id: str, payload: dict):
+def update_task_completion(task_id: str, payload: TaskSpecification):
     """Update task completion status and user notes"""
-    # TaskManager.update_task_completion(task_id, payload)
-    return {"status": "ok"}
+    response = TaskManager.complete_task(payload)
+    return response
 
 @app.get("/analytics/daily")
 def daily_analytics():
