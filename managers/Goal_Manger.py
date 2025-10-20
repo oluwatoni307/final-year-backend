@@ -57,7 +57,7 @@ class GoalManager:
       return
     
     @staticmethod
-    def get_user_schedule(user_id: str) -> WeeklySchedule:
+    def get_user_schedule(user_id: str):
         """Get user's schedule or return empty if none exists"""
         try:
             result = select(
@@ -65,7 +65,7 @@ class GoalManager:
                 filters={'user_id': user_id},
             )
             
-            return WeeklySchedule(**result[0]['schedule_data'])
+            return result
         
         except Exception:
             # No schedule exists, return empty

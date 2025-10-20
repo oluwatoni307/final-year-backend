@@ -104,21 +104,7 @@ def monthly_analytics():
 
 @app.get("/schedule", response_model=dict)
 def get_schedule():
-    return {
-        "monday": [
-            {"day": "Monday", "time_slot": "09:00-09:30", "minutes": 30, "milestone_title": "Flutter Study – Ch3"},
-            {"day": "Monday", "time_slot": "18:00-18:45", "minutes": 45, "milestone_title": "Gym – Upper Body"},
-        ],
-        "tuesday": [
-            {"day": "Tuesday", "time_slot": "08:00-08:25", "minutes": 25, "milestone_title": "Meditation"},
-        ],
-        "wednesday": [],
-        "thursday": [],
-        "friday": [],
-        "saturday": [],
-        "sunday": [],
-    }
-
+    return GoalManager.get_user_schedule("test123")
 
 if __name__ == "__main__":
     import uvicorn
