@@ -102,7 +102,7 @@ def monthly_analytics():
     sample_data = ()
     return 
 
-@app.get("/schedule", response_model=dict)
+@app.get("/schedule")
 def get_schedule():
     return GoalManager.get_user_schedule("test123")
 
