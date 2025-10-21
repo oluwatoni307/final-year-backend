@@ -51,8 +51,8 @@ class GoalManager:
         #       {"assigned_timeslot": timetable.updated_schedule.model_dump()}
         #     )
           # Create
-          
-          TaskManager.create_tasks(active_milestone, active_milestone[0]["id"])
+          context = "no previous context"
+          TaskManager.create_tasks(active_milestone, context, active_milestone[0]["id"])
       
       return
     

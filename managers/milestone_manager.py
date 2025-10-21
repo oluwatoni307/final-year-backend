@@ -26,14 +26,16 @@ class MilestoneManager:
 
     
     @staticmethod
-    def complete_milestone( milestone_id) -> None:
+    def complete_milestone( milestone_id, user_id ="test123") -> None:
+        from managers.Goal_Manger import GoalManager
         """
         Sets milestone.status = 'completed'.
         Also advances the next pending milestone to 'active'.
         """
         new_milestone,feedback =complete_milestone(milestone_id)
         if new_milestone != [] and new_milestone != True:
-            timetable =timeMaster(new_milestone, [])# type: ignore 
+            timetable =timeMaster(new_milestone, [])# type: ignore
+            GoalManager.save_user_schedule(user_id, timetable.updated_schedule)
             TaskManager.create_tasks(new_milestone,feedback, new_milestone[0]["id"])
         
         # calls TaskManager.create_tasks
