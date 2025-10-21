@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware # pyright: ignore[reportMissi
 from pydantic import BaseModel, Field # pyright: ignore[reportMissingImports]
 from datetime import datetime
 from typing import Dict, List, Literal, Optional
+from managers.db import supa
 from managers.Goal_Manger import GoalManager
 from managers.goal.model import GoalSave, goal_input, GoalOutput
 from managers.milestone_manager import MilestoneManager
@@ -12,7 +13,6 @@ from managers.task.model import Task, TaskSpecification
 from managers.task_manager import TaskManager
 from sample import *
 from models import HabitOut, HomeDataOut, InsightOut, MonthlyAnalyticsOut, ProgressOut
-
 app = FastAPI(title="Stub API")
 app.add_middleware(
     CORSMiddleware,
@@ -74,8 +74,14 @@ def get_milestones(goal_id: str):
 def get_tasks(milestone_id: str): 
     tasks =TaskManager.return_task_list(milestone_id)
     return tasks
- 
+@app.get("/profile/{user_id}")
+async def get_profile_stats(user_id: str):
+    active = supa.table("goals").select("*", count="exact").eq("user_id", "test123").eq("status", "active").execute().count # pyright: ignore[reportArgumentType]
 
+    completed = supa.table("goals").select("*", count="exact").eq("user_id", user_id).eq("status", "completed").execute().count # type: ignore
+    return {"success":True,"data":{"active_goals": active, "completed_goals": completed}}
+       
+       
 
 @app.get("/tasks/{task_id}/completion")
 def get_task_completion(task_id: str):

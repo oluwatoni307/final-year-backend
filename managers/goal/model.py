@@ -82,3 +82,8 @@ class GoalSave(BaseModel):
     complexity_rating: float
     recommended_approach: str
     success_probability: str
+    
+    
+class evaluation_feedback(BaseModel):
+    user_eval: str
+    system_eval: str

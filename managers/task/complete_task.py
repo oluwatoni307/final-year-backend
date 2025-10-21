@@ -3,7 +3,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from ai_model import model
 from .model import  rating_model, TaskSpecification
-from ..db import update
+from ..db import supa
+
 
 
 def task_maker(task: TaskSpecification):
@@ -24,8 +25,23 @@ def task_maker(task: TaskSpecification):
     )
 
     response:rating_model = marker_model.invoke(prompt) # type: ignore
-    update("tasks", {"task_id": task.task_id}, {"completed":{"rating": response.rating, "feedback": response.feedaback, "status": "completed"}, "status": "completed"})
-    return response
-    
+    result = supa.rpc(
+        'complete_task_and_check',
+        {
+            'p_task_id': task.task_id,
+            'p_rating': response.rating,
+            'p_feedback': response.feedback
+        }
+    ).execute().data
+
+    remaining_tasks = result['remaining_tasks']
+    milestone_id = result['milestone_id']
+
+    if remaining_tasks == 0:
+        print(f"🎉 Milestone {milestone_id} completed!")
+        # Update milestone status or do something else
+        
+    return response, remaining_tasks, milestone_id
+        
     
   

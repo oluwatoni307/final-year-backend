@@ -34,7 +34,7 @@ class TaskDecompositionOutput(BaseModel):
 
 class rating_model(BaseModel):
     rating: int
-    feedaback: str
+    feedback: str
  
  
 class Task(TaskSpecification):

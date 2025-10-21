@@ -25,16 +25,16 @@ class MilestoneManager:
         
 
     
-
-    def complete_milestone(self, milestone_id, goal_id) -> None:
+    @staticmethod
+    def complete_milestone( milestone_id) -> None:
         """
         Sets milestone.status = 'completed'.
         Also advances the next pending milestone to 'active'.
         """
-        new_milestone =complete_milestone(milestone_id, goal_id)
-        if new_milestone != []:
+        new_milestone,feedback =complete_milestone(milestone_id)
+        if new_milestone != [] and new_milestone != True:
             timetable =timeMaster(new_milestone, [])# type: ignore 
-            TaskManager.create_tasks(new_milestone, new_milestone[0]["id"])
+            TaskManager.create_tasks(new_milestone,feedback, new_milestone[0]["id"])
         
         # calls TaskManager.create_tasks
          # 5️⃣  Only the *currently active* milestone is passed to TaskManager

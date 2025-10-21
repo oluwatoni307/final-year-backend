@@ -23,7 +23,8 @@ def save_goal_x_milestone(milestones: milestones, goal: GoalSave):
         row = {
             "goal_id": goal_id,
             "objective": milestone.objective,
-            "description": milestone.description,   
+            "description": milestone.description, 
+            "rank": milestone.index, 
             "success_criteria": milestone.success_criteria,
             "target_date": milestone.targetDate.isoformat(),
             "enables": milestone.enables,

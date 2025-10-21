@@ -21,7 +21,6 @@ For each milestone, provide:
    - Provide context about what this milestone represents
    - Explain its role in the overall progression
    - Keep it concise but informative
-
 3. objective: Specific building/development/achievement focus
    - Use action-oriented language ("Build", "Develop", "Master", "Complete")
    - Focus on capability development, not just task completion

@@ -78,3 +78,6 @@ class MilestoneScheduleSummary(BaseModel):
 class TimeMasterOutput(BaseModel):
     updated_schedule: WeeklySchedule  # Full context
     milestone_summaries: List[MilestoneScheduleSummary]  # All affected milestones
+class evaluation_feedback(BaseModel):
+    user_eval: str
+    system_eval: str

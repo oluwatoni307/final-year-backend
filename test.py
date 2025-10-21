@@ -58,7 +58,7 @@ def main():
     # show_resp(requests.get(f"{BASE_URL}/goals/1a2155ae-8adf-4dbe-b9bc-d78f831cc66d/milestones"))
 
     # GET /milestones/{milestone_id}/tasks
-    show_resp(requests.get(f"{BASE_URL}/milestones/07e9a05c-714a-4bc1-974a-dc86a9ee00dc/tasks"))
+    # show_resp(requests.get(f"{BASE_URL}/milestones/07e9a05c-714a-4bc1-974a-dc86a9ee00dc/tasks"))
 
 # #     # GET /tasks/{task_id}/completion
 #     show_resp(requests.get(f"{BASE_URL}/tasks/d21f9a21-8666-4fdb-a414-b3d47565ba8f/completion"))
@@ -67,10 +67,10 @@ def main():
 #     show_resp(requests.patch(f"{BASE_URL}/tasks/t1", json={"completed": True, "notes": "Done"}))
 
 #     # GET /analytics/daily
-#     show_resp(requests.get(f"{BASE_URL}/analytics/daily"))
+    show_resp(requests.get(f"{BASE_URL}/analytics/daily"))
 
 #     # GET /analytics/monthly
-#     show_resp(requests.get(f"{BASE_URL}/analytics/monthly"))
+    show_resp(requests.get(f"{BASE_URL}/analytics/monthly"))
 
 #     # GET /schedule
 #     show_resp(requests.get(f"{BASE_URL}/schedule"))

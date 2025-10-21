@@ -4,7 +4,7 @@ from managers.task.retrieve_task_data import get_today_tasks
 from managers.task.save_task import save_tasks_for_milestone
 from managers.task.complete_task import task_maker
 from models import HabitOut, HomeDataOut, InsightOut, ProgressOut
-from managers.db import DAYS, get_active_tasks, select
+from managers.db import DAYS, get_active_tasks, select, update
 
 from .milestones.model import milestone
 from .task.model import Task, TaskSpecification
@@ -17,11 +17,11 @@ def generate_insight(daily_completed_tasks, daily_total, weekly_completed_tasks,
 class TaskManager:
     # 6️⃣  Called immediately after MilestoneManager.mark_active
     @staticmethod
-    def create_tasks( active_milestone,milestone_id: str):
+    def create_tasks( active_milestone, context,milestone_id: str):
         """
         Returns task objects ready for insert (status = 'pending').
         """
-        task_creator_response = task_creator(active_milestone)
+        task_creator_response = task_creator(active_milestone, context)
         save_tasks_for_milestone(task_creator_response, milestone_id)
         return
 
@@ -47,7 +47,14 @@ class TaskManager:
     @staticmethod
     def complete_task(task: TaskSpecification):
         # """Set task.status = 'completed'."""
-        response =task_maker(task)
+        from managers.milestone_manager import MilestoneManager
+
+        response, remaining_task, milestone_id =task_maker(task)
+        if remaining_task == 0:
+            print("🎉 Milestone completed!")
+            # Do something special, like update milestone status
+            MilestoneManager.complete_milestone(milestone_id)
+       
         return response
     
     

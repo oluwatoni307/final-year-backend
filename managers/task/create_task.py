@@ -6,7 +6,7 @@ from .model import TaskDecompositionOutput
 from .prompt import TASK_MANAGER_PROMPT
 
 
-def task_creator(goal):
+def task_creator(milestone, context):
     """
     Generate a course outline based on the course name and description.
     """
@@ -14,9 +14,11 @@ def task_creator(goal):
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", TASK_MANAGER_PROMPT),
-            ("user", "{goal}"),
+            ("user", "{milestone}"),
+                        ("user", "{context}"),
+
         ]
-    ).invoke({"goal": str(goal)})
+    ).invoke({"milestone": str(milestone), "context": str(context)})
     response:TaskDecompositionOutput = task_model.invoke(prompt) # type: ignore
     response.tasks[0]
     return response
