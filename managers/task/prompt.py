@@ -49,7 +49,7 @@ TASK CONSTRUCTION REQUIREMENTS:
 - title: Clear, motivating task name that captures user interest
 - objective: Specific outcome this task achieves toward milestone success
 - specific_actions: List of concrete steps completable in allocated time
-- time_allocated: Match exactly to provided time slot duration
+- time_allocated: Match exactly to provided time slot duration for example "09:00-09:45"
 - cognitive_load: Assess based on mental effort and time slot characteristics
 - success_metric: Clear, achievable completion indicator
 

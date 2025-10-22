@@ -105,7 +105,7 @@ class TaskManager:
             habit = {
                 "id": task["id"],
                 "name": task.get("name") or task["description"],
-                "minutes": task.get("allocated_minutes", 0),
+                "minutes": task.get("allocated_minutes", "N/A"),
                 "isCompleted": (task["status"] == "completed")
             }
             today_habits.append(habit)

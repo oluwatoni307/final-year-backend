@@ -48,7 +48,7 @@ def save_tasks_for_milestone(task_output: TaskDecompositionOutput, milestone_id:
             "rank": idx,
             "status": "active"if idx == 0 else "pending",
             "day": task_spec.day,
-          
+          "allocated_minutes": task_spec.time_allocated,
             "week_details":{"week_number": task_spec.week_number,"missed":0,"completed":0,"total":week_total.get(task_spec.week_number,0)},
         }
         

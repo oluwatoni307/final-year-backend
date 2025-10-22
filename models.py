@@ -3,12 +3,13 @@ from typing import Dict, List, Literal, Optional
 from pydantic import BaseModel
 
 
+
 class HabitOut(BaseModel):
     id: str
     name: str
-    minutes: int = 0  # Default to 0 if not provided
+    minutes: Optional[str] = "09:00-09:45"
     isCompleted: bool = False
-
+    
 class ProgressOut(BaseModel):
     dailyDone: int
     dailyTotal: int
