@@ -91,9 +91,9 @@ def get_task_completion(task_id: str):
     
 
 @app.patch("/tasks/{task_id}")
-def update_task_completion(task_id: str, payload: TaskSpecification):
+def update_task_completion(task_id: str, payload):
     """Update task completion status and user notes"""
-    response = TaskManager.complete_task(payload)
+    response = TaskManager.complete_task(task_id,payload)
     return response
 
 @app.get("/analytics/daily")

@@ -2,7 +2,7 @@ from uuid import UUID
 
 from managers.task.retrieve_task_data import get_today_tasks
 from managers.task.save_task import save_tasks_for_milestone
-from managers.task.complete_task import task_maker
+from managers.task.complete_task import task_grader
 from models import HabitOut, HomeDataOut, InsightOut, ProgressOut
 from managers.db import DAYS, get_active_tasks, select, update
 
@@ -45,11 +45,11 @@ class TaskManager:
 
     
     @staticmethod
-    def complete_task(task: TaskSpecification):
+    def complete_task(task_id, task):
         # """Set task.status = 'completed'."""
         from managers.milestone_manager import MilestoneManager
 
-        response, remaining_task, milestone_id =task_maker(task)
+        response, remaining_task, milestone_id =task_grader(task_id, task)
         if remaining_task == 0:
             print("🎉 Milestone completed!")
             # Do something special, like update milestone status

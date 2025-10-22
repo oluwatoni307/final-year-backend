@@ -44,7 +44,7 @@ class GoalManager:
           timetable = timeMaster(active_milestone, existing_schedule)
           
           # Save the updated schedule back
-          GoalManager.save_user_schedule("test", timetable.updated_schedule)
+          GoalManager.save_user_schedule("test123", timetable.updated_schedule)
         #   update(
         #       "milestones",
         #       {"id": active_milestone[0]["id"]},

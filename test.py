@@ -60,17 +60,25 @@ def main():
     # GET /milestones/{milestone_id}/tasks
     # show_resp(requests.get(f"{BASE_URL}/milestones/07e9a05c-714a-4bc1-974a-dc86a9ee00dc/tasks"))
 
-# #     # GET /tasks/{task_id}/completion
-#     show_resp(requests.get(f"{BASE_URL}/tasks/d21f9a21-8666-4fdb-a414-b3d47565ba8f/completion"))
+    task_data = {
+        "id": "206deb25-347d-44f7-bbed-f37cf1735798",
+        "name": "Identify Story Structures in Sample Novellas",
+        "description": "**Objective:** Recognize and outline the structure of published novellas. **Task Type:** consolidation **Cognitive Load:** medium **Time Allocated:** 30 minutes **Specific Actions:** - Select a short published novella (or excerpt). - Skim and identify the beginning, middle, and end. - Outline the main plot points in bullet form. **Success Metric:** Completed outline with at least three main plot points identified.",
+        "completion_description": "",
+        "status": "active"
+    }
+
+    # Test it
+    show_resp(requests.get(f"{BASE_URL}/tasks/206deb25-347d-44f7-bbed-f37cf1735798/completion"))
 
 # #     # PATCH /tasks/{task_id}
 #     show_resp(requests.patch(f"{BASE_URL}/tasks/t1", json={"completed": True, "notes": "Done"}))
 
-#     # GET /analytics/daily
-    show_resp(requests.get(f"{BASE_URL}/analytics/daily"))
+# #     # GET /analytics/daily
+#     show_resp(requests.get(f"{BASE_URL}/analytics/daily"))
 
-#     # GET /analytics/monthly
-    show_resp(requests.get(f"{BASE_URL}/analytics/monthly"))
+# #     # GET /analytics/monthly
+#     show_resp(requests.get(f"{BASE_URL}/analytics/monthly"))
 
 #     # GET /schedule
 #     show_resp(requests.get(f"{BASE_URL}/schedule"))

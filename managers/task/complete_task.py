@@ -7,7 +7,7 @@ from ..db import supa
 
 
 
-def task_maker(task: TaskSpecification):
+def task_grader(task_id,task):
     """
     Generate a course outline based on the course name and description.
     """
@@ -28,7 +28,7 @@ def task_maker(task: TaskSpecification):
     result = supa.rpc(
         'complete_task_and_check',
         {
-            'p_task_id': task.task_id,
+            'p_task_id': task_id,
             'p_rating': response.rating,
             'p_feedback': response.feedback
         }
